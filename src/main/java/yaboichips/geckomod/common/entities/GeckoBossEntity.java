@@ -3,6 +3,9 @@ package yaboichips.geckomod.common.entities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RangedAttackGoal;
@@ -10,15 +13,16 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
-import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
 import yaboichips.geckomod.core.GItems;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
@@ -36,12 +40,19 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false, false));
     }
 
+    public static @Nonnull
+    AttributeModifierMap.MutableAttribute setCustomAttributes() {
+        return MobEntity.func_233666_p_()
+                .createMutableAttribute(Attributes.MAX_HEALTH, 80.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0F)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 10.0D);
+    }
 
 
     @Override
     public void setCustomName(@Nullable ITextComponent name) {
         super.setCustomName(name);
-        this.bossInfo.setName(this.getDisplayName());
+        this.bossInfo.setName(new TranslationTextComponent("Gecko Boss"));
     }
 
 
@@ -67,7 +78,7 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
 
     @Override
     public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
-        this.launchProjectileToEntity(0, target);
+        this.launchProjectileToEntity(1, target);
     }
 
     @Override

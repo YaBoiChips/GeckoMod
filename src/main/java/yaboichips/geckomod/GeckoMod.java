@@ -15,17 +15,19 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import yaboichips.geckomod.client.entity.renderers.GeckoBossJungleRenderer;
 import yaboichips.geckomod.client.entity.renderers.GeckoRenderer;
 import yaboichips.geckomod.client.entity.renderers.NetherGeckoRenderer;
+import yaboichips.geckomod.common.entities.GeckoBossEntity;
 import yaboichips.geckomod.common.entities.GeckoEntity;
 import yaboichips.geckomod.common.entities.NetherGeckoEntity;
 import yaboichips.geckomod.core.GBlocks;
 import yaboichips.geckomod.core.GEntities;
 import yaboichips.geckomod.core.GItems;
+import yaboichips.geckomod.util.GKeyBinds;
 
 import javax.annotation.Nonnull;
 import java.util.stream.Collectors;
@@ -52,6 +54,7 @@ public class GeckoMod {
         LOGGER.info("HELLO FROM GECKOS");
         GlobalEntityTypeAttributes.put(GEntities.GECKO, GeckoEntity.setCustomAttributes().create());
         GlobalEntityTypeAttributes.put(GEntities.NETHERGECKO, NetherGeckoEntity.setCustomAttributes().create());
+        GlobalEntityTypeAttributes.put(GEntities.GECKOBOSSJUNGLE, GeckoBossEntity.setCustomAttributes().create());
 
         LOGGER.info("GECKO COMMON DONE");
     }
@@ -60,7 +63,8 @@ public class GeckoMod {
         LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
         RenderingRegistry.registerEntityRenderingHandler(GEntities.GECKO, GeckoRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(GEntities.NETHERGECKO, NetherGeckoRenderer::new);
-        //RenderingRegistry.registerEntityRenderingHandler(GEntities.GECKOBOSSJUNGLE, GeckoBossJungleRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(GEntities.GECKOBOSSJUNGLE, GeckoBossJungleRenderer::new);
+        GKeyBinds.register();
         LOGGER.info("GECKO CLIENT DONE");
 
     }
@@ -78,12 +82,6 @@ public class GeckoMod {
                 collect(Collectors.toList()));
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-        // do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
 
     public static @Nonnull
     ResourceLocation createResource(String path) {

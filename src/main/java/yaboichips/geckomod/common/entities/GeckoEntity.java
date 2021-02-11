@@ -1,18 +1,16 @@
 package yaboichips.geckomod.common.entities;
 
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.client.Minecraft;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -28,15 +26,14 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.ForgeEventFactory;
-import yaboichips.geckomod.common.items.GeckoArmorItem;
 import yaboichips.geckomod.core.GEntities;
 import yaboichips.geckomod.core.GItems;
+import yaboichips.geckomod.util.GKeyBinds;
 import yaboichips.geckomod.util.Maths;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -48,6 +45,8 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     private static final DataParameter<Boolean> GIANT = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> COMMAND = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> SETGIANT = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.VARINT);
+    public static final EntitySize GECKO_SIZE = EntitySize.flexible(0.4f,0.4f);
+    public static final EntitySize GIANT_SIZE = EntitySize.flexible(1.6f,3.2f);
     private final BoostHelper boostHelper = new BoostHelper(this.dataManager, COMMAND, GIANT);
     public boolean forcedSit = false;
     public boolean forcedGiant = false;
@@ -66,6 +65,8 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D);
     }
 
+
+
     // Initialise Gecko
 
     @Override
@@ -79,6 +80,8 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         this.dataManager.register(STANDING, Boolean.FALSE);
         this.dataManager.register(SITTING, Boolean.FALSE);
     }
+
+
 
     @Override
     protected void registerGoals() {
@@ -99,7 +102,37 @@ public class GeckoEntity extends TameableEntity implements IRideable{
 
     @Override
     public boolean isElytraFlying() {
-        return this.isGiant();
+        return this.isGiant() && this.getEntityWorld().getBlockState(this.getPositionUnderneath()).getBlock() == Blocks.AIR || this.getEntityWorld().getBlockState(this.getPositionUnderneath()).getBlock() == Blocks.VOID_AIR || this.getEntityWorld().getBlockState(this.getPositionUnderneath()).getBlock() == Blocks.CAVE_AIR;
+    }
+
+    @Override
+    public EntitySize getSize(Pose poseIn) {
+        if (this.isGiant() && this.isLiving()){
+            return GIANT_SIZE;
+        } else {
+            return GECKO_SIZE;
+        }
+    }
+
+    @Override
+    public void livingTick() {
+        if (this.world.isRemote) {
+            if (this.isGiant() && this.isBeingRidden()) {
+                if (GKeyBinds.GECKO_FLY_KEY.isPressed()) {
+                    Vector3d vec = this.getMotion();
+                    this.setMotion(vec.x, 0.5, vec.z);
+                }
+            }
+        }
+        super.livingTick();
+    }
+
+    @Override
+    public boolean onLivingFall(float distance, float damageMultiplier) {
+        if (this.isGiant()){
+            return false;
+        } else
+        return super.onLivingFall(distance, damageMultiplier);
     }
 
     @Override
@@ -155,7 +188,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                 }
                 return ActionResultType.SUCCESS;
             }
-            if (type != ActionResultType.SUCCESS && isTamed() && isOwner(player) && !isBreedingItem(stack)) {
+            if (type != ActionResultType.SUCCESS && isTamed() && isOwner(player) && !isBreedingItem(stack) && item != GItems.GECKO_STAFF) {
                 if (!player.isSneaking()) {
                     this.setCommand(this.getCommand() + 1);
                     if (this.getCommand() == 2) {
@@ -180,7 +213,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                     if (this.getSetGiant() == 2)
                         this.setSetGiant(0);
                 }
-
 
                 boolean giant = this.getSetGiant() == 1;
                 if (giant) {
@@ -250,8 +282,12 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                     this.setHealth(16.0F);
                 }
             }
+            if (type != ActionResultType.SUCCESS && item == GItems.GECKO_STAFF && this.isTamed() && !this.isBeingRidden() && this.isGiant()){
+                if (!this.world.isRemote) {
+                    player.startRiding(this, true);
+                }
+            }
         }
-
             return type;
     }
 
@@ -280,7 +316,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                     }
                 }
             }
-
             return super.func_230268_c_(livingEntity);
         }
     }
@@ -292,7 +327,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         setSkinColor(getRandomGeckoColor(rand));
         return super.onInitialSpawn(world, difficultyIn, reason, spawnData == null ? new AgeableEntity.AgeableData(1.0F) : spawnData, tag);
     }
-
 
     @Override
     public boolean canSpawn(IWorld world, SpawnReason spawnReason) {
@@ -347,7 +381,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     public boolean isGiant() {
         return this.dataManager.get(GIANT);
     }
-
 
     public static SkinColors getRandomGeckoColor(@Nonnull Random random) {
         int i = random.nextInt(13);
@@ -472,10 +505,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     }
 
     public void setFlags(@Nonnull SkinColors color, boolean climbing) {
-        setRawFlag(
-                (color.ordinal() & Byte.MAX_VALUE) << 16 |
-                        (climbing ? 1 : 0) << 8
-        );
+        setRawFlag((color.ordinal() & Byte.MAX_VALUE) << 16 | (climbing ? 1 : 0) << 8);
     }
 
     public void setRawFlag(int flag) {
@@ -516,7 +546,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     public float getMountedSpeed() {
         return (float)this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.525F;
     }
-
 
 
     // End write to nbt
