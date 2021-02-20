@@ -1,18 +1,20 @@
 package yaboichips.geckomod.common.entities;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -24,9 +26,16 @@ import yaboichips.geckomod.core.GItems;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.function.Predicate;
 
 public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
+    private static final DataParameter<Integer> TARGET = EntityDataManager.createKey(GeckoBossEntity.class, DataSerializers.VARINT);
     private final ServerBossInfo bossInfo = (ServerBossInfo)(new ServerBossInfo(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
+    private static final Predicate<LivingEntity> NOT_UNDEAD = (mob) -> {
+        return mob.getCreatureAttribute() != CreatureAttribute.UNDEAD && mob.attackable();
+    };
+    private static final EntityPredicate ENEMY_CONDITION = (new EntityPredicate()).setDistance(20.0D).setCustomPredicate(NOT_UNDEAD);
+
     public boolean no = false;
 
     public GeckoBossEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
@@ -37,7 +46,8 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
     public void registerGoals() {
         goalSelector.addGoal(2, new RangedAttackGoal(this, 1.0D, 40, 20.0F));
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false, false));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 0, false, false, NOT_UNDEAD));
     }
 
     public static @Nonnull
@@ -48,6 +58,13 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 10.0D);
     }
 
+    @Override
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(TARGET, 0);
+    }
+
+
 
     @Override
     public void setCustomName(@Nullable ITextComponent name) {
@@ -56,10 +73,16 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
     }
 
 
-    private void launchProjectileToEntity(int head, LivingEntity target) {
-        this.launchProjectileToCoords(head, target.getPosX(), target.getPosY() + (double)target.getEyeHeight() * 0.5D, target.getPosZ(), head == 0 && this.rand.nextFloat() < 0.001F);
+    private void launchProjectileToEntity(int head, PlayerEntity target) {
+        this.launchProjectileToCoords(head, target.getPosX(), target.getPosY(), target.getPosZ(), head == 0 && this.rand.nextFloat() < 0.001F);
     }
 
+    @Override
+    public void livingTick() {
+       PlayerEntity player = this.world.getClosestPlayer(this, 50D);
+        this.setAttackTarget(player);
+        super.livingTick();
+    }
 
     private void launchProjectileToCoords(int head, double x, double y, double z, boolean invulnerable) {
         if (!this.isSilent()) {
@@ -78,7 +101,7 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
 
     @Override
     public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
-        this.launchProjectileToEntity(1, target);
+        this.launchProjectileToEntity(0, (PlayerEntity)target);
     }
 
     @Override
@@ -88,6 +111,18 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
         if (itementity != null) {
             itementity.setNoDespawn();
         }
+    }
+
+    @Override
+    public void addTrackingPlayer(ServerPlayerEntity player) {
+        super.addTrackingPlayer(player);
+        this.bossInfo.addPlayer(player);
+    }
+
+   @Override
+    public void removeTrackingPlayer(ServerPlayerEntity player) {
+        super.removeTrackingPlayer(player);
+        this.bossInfo.removePlayer(player);
     }
 
     @Override

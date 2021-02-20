@@ -25,20 +25,18 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 import java.util.UUID;
 
-public class NetherGeckoEntity extends GeckoEntity {
-    private static final DataParameter<Integer> FLAGS = EntityDataManager.createKey(NetherGeckoEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> ARMOR_TYPE = EntityDataManager.createKey(NetherGeckoEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Boolean> STANDING = EntityDataManager.createKey(NetherGeckoEntity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Boolean> SITTING = EntityDataManager.createKey(NetherGeckoEntity.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Integer> COMMAND = EntityDataManager.createKey(NetherGeckoEntity.class, DataSerializers.VARINT);
+public class EndGeckoEntity extends GeckoEntity{
+    private static final DataParameter<Integer> FLAGS = EntityDataManager.createKey(EndGeckoEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> ARMOR_TYPE = EntityDataManager.createKey(EndGeckoEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Boolean> STANDING = EntityDataManager.createKey(EndGeckoEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> SITTING = EntityDataManager.createKey(EndGeckoEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> COMMAND = EntityDataManager.createKey(EndGeckoEntity.class, DataSerializers.VARINT);
     private int underWaterTicks;
 
-
-    public NetherGeckoEntity(EntityType<? extends NetherGeckoEntity> type, World worldIn) {
+    public EndGeckoEntity(EntityType<? extends GeckoEntity> type, World worldIn) {
         super(type, worldIn);
         this.setTamed(false);
     }
-
     public static @Nonnull
     AttributeModifierMap.MutableAttribute setCustomAttributes() {
         return MobEntity.func_233666_p_()
@@ -77,7 +75,7 @@ public class NetherGeckoEntity extends GeckoEntity {
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(11, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false));
     }
-    
+
     @Override
     protected void updateAITasks() {
         if (this.isInWaterOrBubbleColumn() && this.getArmor() <=0) {
@@ -107,26 +105,24 @@ public class NetherGeckoEntity extends GeckoEntity {
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(5.0D);
     }
 
-
-
     @ParametersAreNonnullByDefault
     @Override
     public @Nullable
     ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT tag) {
-        setSkinColor(getRandomNetherGeckoColor(rand));
+        setSkinColor(getRandomEndGeckoColor(rand));
         return super.onInitialSpawn(world, difficultyIn, reason, spawnData == null ? new AgeableEntity.AgeableData(1.0F) : spawnData, tag);
     }
 
 
 
 
-    public static NetherGeckoEntity.SkinColors getRandomNetherGeckoColor(@Nonnull Random random) {
+    public static EndGeckoEntity.SkinColors getRandomEndGeckoColor(@Nonnull Random random) {
         int i = random.nextInt(2);
 
         if (i <= 1) {
-            return SkinColors.REDNETHER;
+            return SkinColors.BLACKEND;
         } else {
-            return SkinColors.ORANGENETHER;
+            return SkinColors.PURPLEEND;
 
         }
     }
@@ -136,24 +132,20 @@ public class NetherGeckoEntity extends GeckoEntity {
 
     @Override
     public Item getTameItem() {
-        return GItems.SPICY_GECKO_FOOD;
+        return GItems.END_GECKO_FOOD;
     }
 
-    @Override
-    public boolean isImmuneToFire() {
-        return true;
-    }
 
     @ParametersAreNonnullByDefault
     @Override
-    public @Nullable NetherGeckoEntity func_241840_a(ServerWorld world, AgeableEntity mate) {
-        @Nullable NetherGeckoEntity gecko = GEntities.NETHERGECKO.create(world);
+    public @Nullable EndGeckoEntity func_241840_a(ServerWorld world, AgeableEntity mate) {
+        @Nullable EndGeckoEntity gecko = GEntities.ENDGECKO.create(world);
         UUID uuid = this.getOwnerId();
         if (uuid != null) {
             gecko.setOwnerId(uuid);
             gecko.setTamed(true);
         }
-        if (gecko != null) gecko.setSkinColor(getRandomNetherGeckoColor(gecko.rand));
+        if (gecko != null) gecko.setSkinColor(getRandomEndGeckoColor(gecko.rand));
 
         return gecko;
     }
@@ -164,50 +156,41 @@ public class NetherGeckoEntity extends GeckoEntity {
         if (flag) applyEnchantments(this, entityIn);
         if (flag && this.getHeldItemMainhand().isEmpty() && entityIn instanceof LivingEntity && entityIn != this.getOwner()) {
             float f = this.world.getDifficultyForLocation(this.getPosition()).getAdditionalDifficulty();
-            entityIn.setFire(8);
+            entityIn.teleportKeepLoaded(entityIn.getPosX() + 3, entityIn.getPosY(), entityIn.getPosZ() - 5);
         }
 
         return flag;
     }
 
-
-    // Write to Nbt
-
-
-    public NetherGeckoEntity.SkinColors getNetherSkinColor() {
-        return NetherGeckoEntity.SkinColors.byIndex((getRawFlag() >> 16) & Byte.MAX_VALUE);
+    public EndGeckoEntity.SkinColors getEndSkinColor() {
+        return EndGeckoEntity.SkinColors.byIndex((getRawFlag() >> 16) & Byte.MAX_VALUE);
     }
 
+    public int getRawFlag() {
+        return dataManager.get(FLAGS);
+    }
+
+    public void setFlags(@Nonnull EndGeckoEntity.SkinColors color, boolean climbing) {
+        setRawFlag(
+                (color.ordinal() & Byte.MAX_VALUE) << 16 |
+                        (climbing ? 1 : 0) << 8
+        );
+    }
+    public void setRawFlag(int flag) {
+        dataManager.set(FLAGS, flag);
+    }
 
     public void setSkinColor(@Nonnull SkinColors color) {
         setFlags(color, isClimbing());
     }
 
 
-    public int getRawFlag() {
-        return dataManager.get(FLAGS);
-    }
-
-    public void setFlags(@Nonnull SkinColors color, boolean climbing) {
-        setRawFlag(
-                (color.ordinal() & Byte.MAX_VALUE) << 16 |
-                        (climbing ? 1 : 0) << 8
-        );
-    }
-
-    public void setRawFlag(int flag) {
-        dataManager.set(FLAGS, flag);
-    }
-
-    // End write to nbt
-
-
     public enum SkinColors {
-        REDNETHER(),
-        ORANGENETHER();
+        BLACKEND(),
+        PURPLEEND();
 
-        public static SkinColors byIndex(int index) {
-            return Maths.get(SkinColors.values(), index);
+        public static EndGeckoEntity.SkinColors byIndex(int index) {
+            return Maths.get(EndGeckoEntity.SkinColors.values(), index);
         }
     }
 }

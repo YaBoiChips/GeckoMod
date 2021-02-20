@@ -5,9 +5,7 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import yaboichips.geckomod.GeckoMod;
-import yaboichips.geckomod.client.entity.models.GeckoModel;
 import yaboichips.geckomod.client.entity.models.NetherGeckoModel;
-import yaboichips.geckomod.common.entities.GeckoEntity;
 import yaboichips.geckomod.common.entities.NetherGeckoEntity;
 
 import javax.annotation.Nonnull;
@@ -30,7 +28,7 @@ public class NetherGeckoRenderer <T extends NetherGeckoEntity> extends AbstractR
     @Override
     public @Nonnull
     ResourceLocation getEntityTexture(@Nonnull T entity) {
-        return GECKO_TEXTURE.get(entity.getSkinColor());
+        return GECKO_TEXTURE.get(entity.getNetherSkinColor());
     }
 
     private static @Nonnull ResourceLocation createTexture(String name) {

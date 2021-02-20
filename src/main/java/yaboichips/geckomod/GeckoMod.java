@@ -18,9 +18,11 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import yaboichips.geckomod.client.entity.renderers.EndGeckoRenderer;
 import yaboichips.geckomod.client.entity.renderers.GeckoBossJungleRenderer;
 import yaboichips.geckomod.client.entity.renderers.GeckoRenderer;
 import yaboichips.geckomod.client.entity.renderers.NetherGeckoRenderer;
+import yaboichips.geckomod.common.entities.EndGeckoEntity;
 import yaboichips.geckomod.common.entities.GeckoBossEntity;
 import yaboichips.geckomod.common.entities.GeckoEntity;
 import yaboichips.geckomod.common.entities.NetherGeckoEntity;
@@ -55,6 +57,7 @@ public class GeckoMod {
         GlobalEntityTypeAttributes.put(GEntities.GECKO, GeckoEntity.setCustomAttributes().create());
         GlobalEntityTypeAttributes.put(GEntities.NETHERGECKO, NetherGeckoEntity.setCustomAttributes().create());
         GlobalEntityTypeAttributes.put(GEntities.GECKOBOSSJUNGLE, GeckoBossEntity.setCustomAttributes().create());
+        GlobalEntityTypeAttributes.put(GEntities.ENDGECKO, EndGeckoEntity.setCustomAttributes().create());
 
         LOGGER.info("GECKO COMMON DONE");
     }
@@ -64,6 +67,7 @@ public class GeckoMod {
         RenderingRegistry.registerEntityRenderingHandler(GEntities.GECKO, GeckoRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(GEntities.NETHERGECKO, NetherGeckoRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(GEntities.GECKOBOSSJUNGLE, GeckoBossJungleRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(GEntities.ENDGECKO, EndGeckoRenderer::new);
         GKeyBinds.register();
         LOGGER.info("GECKO CLIENT DONE");
 

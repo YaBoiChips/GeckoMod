@@ -15,6 +15,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -46,7 +47,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     private static final DataParameter<Integer> COMMAND = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> SETGIANT = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.VARINT);
     public static final EntitySize GECKO_SIZE = EntitySize.flexible(0.4f,0.4f);
-    public static final EntitySize GIANT_SIZE = EntitySize.flexible(1.6f,3.2f);
+    public static final EntitySize GIANT_SIZE = EntitySize.flexible(1.9f,1.2f);
     private final BoostHelper boostHelper = new BoostHelper(this.dataManager, COMMAND, GIANT);
     public boolean forcedSit = false;
     public boolean forcedGiant = false;
@@ -64,8 +65,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 12.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D);
     }
-
-
 
     // Initialise Gecko
 
@@ -114,17 +113,27 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         }
     }
 
+
     @Override
     public void livingTick() {
         if (this.world.isRemote) {
             if (this.isGiant() && this.isBeingRidden()) {
                 if (GKeyBinds.GECKO_FLY_KEY.isPressed()) {
                     Vector3d vec = this.getMotion();
-                    this.setMotion(vec.x, 0.5, vec.z);
+                    this.setVelocity(vec.x, 0.5, vec.z);
                 }
             }
         }
         super.livingTick();
+        if (this.isGiant()){
+            this.recalculateSize();
+        }
+        if (!this.isGiant()){
+            this.recalculateSize();
+        }
+        if (this.isPotionActive(Effects.POISON)){
+            this.removePotionEffect(Effects.POISON);
+        }
     }
 
     @Override
@@ -154,6 +163,11 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     }
 
 
+    public Item getTameItem(){
+        return GItems.GECKO_FOOD;
+    }
+
+
 
     @Override
     public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
@@ -162,7 +176,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         ActionResultType type = super.func_230254_b_(player, hand);
 
         if (this.world.isRemote) {
-            boolean flag = this.isOwner(player) || this.isTamed() || item == GItems.GECKO_FOOD && !this.isTamed();
+            boolean flag = this.isOwner(player) || this.isTamed() || item == this.getTameItem() && !this.isTamed();
             return flag ? ActionResultType.CONSUME : ActionResultType.PASS;
         } else {
             if (this.isTamed()) {
@@ -173,7 +187,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                     this.heal((float) item.getFood().getHealing());
                     return ActionResultType.SUCCESS;
                 }
-            } else if (item == GItems.GECKO_FOOD) {
+            } else if (item == this.getTameItem()) {
                 if (!player.abilities.isCreativeMode) {
                     stack.shrink(1);
                 }
