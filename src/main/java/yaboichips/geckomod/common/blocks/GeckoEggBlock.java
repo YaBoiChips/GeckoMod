@@ -28,6 +28,7 @@ public class GeckoEggBlock extends Block {
         this.setDefaultState(this.stateContainer.getBaseState().with(HATCH, Integer.valueOf(0)));
     }
 
+    @Override
     public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
         if (this.canGrow(worldIn)) {
             int i = state.get(HATCH);

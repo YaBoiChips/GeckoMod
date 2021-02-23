@@ -16,6 +16,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import yaboichips.geckomod.common.entities.GeckoEntity;
+import yaboichips.geckomod.core.GBlocks;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -33,13 +34,17 @@ public class GeckoPouchItem extends BasicItem {
         ItemStack stack = context.getItem();
         if (player.getEntityWorld().isRemote) return ActionResultType.FAIL;
             if (!containsEntity(stack)) return ActionResultType.FAIL;
-            Entity entity = getEntityFromStack(stack, worldIn, true);
-            BlockPos blockPos = pos.offset(facing);
-            entity.setPositionAndRotation(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
-            stack.setTag(new CompoundNBT());
-            worldIn.addEntity(entity);
+            if (worldIn.getBlockState(pos) != GBlocks.TERRARIUM_BLOCK.getDefaultState()) {
+                Entity entity = getEntityFromStack(stack, worldIn, true);
+                BlockPos blockPos = pos.offset(facing);
+                entity.setPositionAndRotation(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
+                stack.setTag(new CompoundNBT());
+                worldIn.addEntity(entity);
+            }
         return ActionResultType.SUCCESS;
     }
+
+
 
     @Override
     public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
@@ -58,7 +63,7 @@ public class GeckoPouchItem extends BasicItem {
 
 
 
-    public boolean containsEntity(ItemStack stack) {
+    public static boolean containsEntity(ItemStack stack) {
         return !stack.isEmpty() && stack.hasTag() && stack.getTag().contains("entity");
     }
 
@@ -75,6 +80,8 @@ public class GeckoPouchItem extends BasicItem {
             tooltip.add(new StringTextComponent("Health: " + stack.getTag().getDouble("Health")));
         }
     }
+
+
 
     @Nullable
     public Entity getEntityFromStack(ItemStack stack, World world, boolean withInfo) {

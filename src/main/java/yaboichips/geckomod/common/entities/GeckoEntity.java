@@ -214,7 +214,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                         this.forcedSit = true;
                         this.setSitting(true);
                         return ActionResultType.SUCCESS;
-
                     } else {
                         this.forcedSit = false;
                         this.setSitting(false);

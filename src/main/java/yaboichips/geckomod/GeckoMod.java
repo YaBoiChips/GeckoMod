@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -29,6 +30,7 @@ import yaboichips.geckomod.common.entities.NetherGeckoEntity;
 import yaboichips.geckomod.core.GBlocks;
 import yaboichips.geckomod.core.GEntities;
 import yaboichips.geckomod.core.GItems;
+import yaboichips.geckomod.core.GTileEntities;
 import yaboichips.geckomod.util.GKeyBinds;
 
 import javax.annotation.Nonnull;
@@ -43,10 +45,12 @@ public class GeckoMod {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public GeckoMod() {
+        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        GTileEntities.TILE_ENTITY_TYPES.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }

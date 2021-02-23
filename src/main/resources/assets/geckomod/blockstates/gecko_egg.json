@@ -1,53 +1,7 @@
 {
   "variants": {
-    "eggs=1,hatch=0": [
-      {
-        "model": "minecraft:block/turtle_egg"
-      },
-      {
-        "model": "minecraft:block/turtle_egg",
-        "y": 90
-      },
-      {
-        "model": "minecraft:block/turtle_egg",
-        "y": 180
-      },
-      {
-        "model": "minecraft:block/turtle_egg",
-        "y": 270
-      }
-    ],
-    "eggs=1,hatch=1": [
-      {
-        "model": "minecraft:block/slightly_cracked_turtle_egg"
-      },
-      {
-        "model": "minecraft:block/slightly_cracked_turtle_egg",
-        "y": 90
-      },
-      {
-        "model": "minecraft:block/slightly_cracked_turtle_egg",
-        "y": 180
-      },
-      {
-        "model": "minecraft:block/slightly_cracked_turtle_egg",
-        "y": 270
-      }
-    ],
-    "eggs=1,hatch=2": [
-      {
-        "model": "minecraft:block/very_cracked_turtle_egg"
-      },
-      {
-        "model": "minecraft:block/very_cracked_turtle_egg",
-        "y": 90
-      },
-      {
-        "model": "minecraft:block/very_cracked_turtle_egg",
-        "y": 180
-      },
-      {
-        "model": "minecraft:block/very_cracked_turtle_egg",
-        "y": 270
-      }
-    ],
+    "": {
+      "model": "geckomod:block/gecko_egg"
+    }
+  }
+}
