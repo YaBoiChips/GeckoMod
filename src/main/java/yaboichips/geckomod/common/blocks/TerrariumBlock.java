@@ -2,12 +2,10 @@ package yaboichips.geckomod.common.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -15,11 +13,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 import yaboichips.geckomod.common.entities.tileentities.TerrariumTileEntity;
-import yaboichips.geckomod.core.GItems;
 import yaboichips.geckomod.core.GTileEntities;
-
-import javax.annotation.Nullable;
 
 public class TerrariumBlock extends Block {
     public TerrariumBlock(Properties builder) {
@@ -37,35 +33,35 @@ public class TerrariumBlock extends Block {
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
-        if (tileentity instanceof TerrariumTileEntity){
-            TerrariumTileEntity terrariumTileEntity = (TerrariumTileEntity)tileentity;
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult result) {
+        if (!worldIn.isRemote) {
+            TileEntity tile = worldIn.getTileEntity(pos);
             ItemStack stack = player.getHeldItem(handIn);
-            Item item = stack.getItem();
-        if (item == GItems.GECKO_POUCH) {
-            //if (stack.getTag().toString().equals("entity")) {
-                CompoundNBT compoundNBT = new CompoundNBT();
-                compoundNBT.contains("entity");
-                terrariumTileEntity.write(compoundNBT);
-            //}
-        }
-    }
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
+            if (stack.hasTag()) {
+                if (stack.getTag().contains("entity")) {
+                    assert tile != null;
+                    ((TerrariumTileEntity) tile).setInventorySlotContents(0, stack.copy());
+                    stack.shrink(1);
+                }
+            }
+             else{
+                 System.out.println("pog");
+                NetworkHooks.openGui((ServerPlayerEntity) player, (TerrariumTileEntity) tile, pos);
+            }
+            return ActionResultType.SUCCESS;
+            }
+        return ActionResultType.FAIL;
     }
 
-    public String getID(ItemStack stack) {
-        return stack.getTag().getString("entity");
-    }
 
-    @Nullable
-    public Entity getEntityFromStack(ItemStack stack, World world, boolean withInfo) {
-        EntityType type = EntityType.byKey(stack.getTag().getString("entity")).orElse(null);
-        if (type != null) {
-            Entity entity = type.create(world);
-            if (withInfo) entity.read(stack.getTag());
-            return entity;
+    @Override
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (state.getBlock() != newState.getBlock()) {
+            TileEntity te = worldIn.getTileEntity(pos);
+            if (te instanceof TerrariumTileEntity) {
+                InventoryHelper.dropItems(worldIn, pos, ((TerrariumTileEntity) te).getItems());
+            }
+            super.onReplaced(state, worldIn, pos, newState, isMoving);
         }
-        return null;
     }
 }

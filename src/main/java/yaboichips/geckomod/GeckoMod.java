@@ -1,6 +1,7 @@
 package yaboichips.geckomod;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.item.Item;
@@ -23,14 +24,12 @@ import yaboichips.geckomod.client.entity.renderers.EndGeckoRenderer;
 import yaboichips.geckomod.client.entity.renderers.GeckoBossJungleRenderer;
 import yaboichips.geckomod.client.entity.renderers.GeckoRenderer;
 import yaboichips.geckomod.client.entity.renderers.NetherGeckoRenderer;
+import yaboichips.geckomod.common.containers.screens.TerrariumScreen;
 import yaboichips.geckomod.common.entities.EndGeckoEntity;
 import yaboichips.geckomod.common.entities.GeckoBossEntity;
 import yaboichips.geckomod.common.entities.GeckoEntity;
 import yaboichips.geckomod.common.entities.NetherGeckoEntity;
-import yaboichips.geckomod.core.GBlocks;
-import yaboichips.geckomod.core.GEntities;
-import yaboichips.geckomod.core.GItems;
-import yaboichips.geckomod.core.GTileEntities;
+import yaboichips.geckomod.core.*;
 import yaboichips.geckomod.util.GKeyBinds;
 
 import javax.annotation.Nonnull;
@@ -51,6 +50,7 @@ public class GeckoMod {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
         GTileEntities.TILE_ENTITY_TYPES.register(modEventBus);
+        GContainers.CONTAINER_TYPES.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -72,6 +72,7 @@ public class GeckoMod {
         RenderingRegistry.registerEntityRenderingHandler(GEntities.NETHERGECKO, NetherGeckoRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(GEntities.GECKOBOSSJUNGLE, GeckoBossJungleRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(GEntities.ENDGECKO, EndGeckoRenderer::new);
+        ScreenManager.registerFactory(GContainers.TERRARIUM_CONTAINER.get(), TerrariumScreen::new);
         GKeyBinds.register();
         LOGGER.info("GECKO CLIENT DONE");
 

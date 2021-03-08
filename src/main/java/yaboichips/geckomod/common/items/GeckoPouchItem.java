@@ -44,7 +44,10 @@ public class GeckoPouchItem extends BasicItem {
         return ActionResultType.SUCCESS;
     }
 
-
+    @Override
+    public int getItemStackLimit(ItemStack stack) {
+        return 1;
+    }
 
     @Override
     public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
@@ -66,6 +69,8 @@ public class GeckoPouchItem extends BasicItem {
     public static boolean containsEntity(ItemStack stack) {
         return !stack.isEmpty() && stack.hasTag() && stack.getTag().contains("entity");
     }
+
+
 
     @Override
     public boolean hasTooltipDetails(@Nullable Key key) {
