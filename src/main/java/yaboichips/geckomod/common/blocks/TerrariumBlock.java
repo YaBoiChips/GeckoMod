@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -33,26 +34,36 @@ public class TerrariumBlock extends Block {
     }
 
     @Override
+    public boolean hasComparatorInputOverride(BlockState state) {
+        return true;
+    }
+
+    @Override
+    public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
+        return Container.calcRedstone(worldIn.getTileEntity(pos));
+    }
+
+    @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult result) {
         if (!worldIn.isRemote) {
             TileEntity tile = worldIn.getTileEntity(pos);
             ItemStack stack = player.getHeldItem(handIn);
-            if (stack.hasTag()) {
-                if (stack.getTag().contains("entity")) {
-                    assert tile != null;
-                    ((TerrariumTileEntity) tile).setInventorySlotContents(0, stack.copy());
-                    stack.shrink(1);
+            if (tile instanceof TerrariumTileEntity) {
+                if (stack.hasTag()) {
+                    if (stack.getTag().contains("entity")) {
+                        if (!((TerrariumTileEntity) tile).getStackInSlot(0).hasTag()) {
+                            ((TerrariumTileEntity) tile).setInventorySlotContents(0, stack.copy());
+                            stack.shrink(1);
+                        }
+                    }
+                } else {
+                    NetworkHooks.openGui((ServerPlayerEntity) player, (TerrariumTileEntity) tile, pos);
                 }
+                return ActionResultType.SUCCESS;
             }
-             else{
-                 System.out.println("pog");
-                NetworkHooks.openGui((ServerPlayerEntity) player, (TerrariumTileEntity) tile, pos);
-            }
-            return ActionResultType.SUCCESS;
-            }
+        }
         return ActionResultType.FAIL;
     }
-
 
     @Override
     public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
