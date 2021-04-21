@@ -4,18 +4,20 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RangedAttackGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.BossInfo;
@@ -36,7 +38,6 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
     };
     private static final EntityPredicate ENEMY_CONDITION = (new EntityPredicate()).setDistance(20.0D).setCustomPredicate(NOT_UNDEAD);
 
-    public boolean no = false;
 
     public GeckoBossEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);
@@ -45,10 +46,10 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
     @Override
     public void registerGoals() {
         goalSelector.addGoal(2, new RangedAttackGoal(this, 1.0D, 40, 20.0F));
-        targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 0, false, false, NOT_UNDEAD));
-    }
+        this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, true));    }
 
     public static @Nonnull
     AttributeModifierMap.MutableAttribute setCustomAttributes() {
@@ -73,36 +74,26 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
     }
 
 
-    private void launchProjectileToEntity(int head, PlayerEntity target) {
-        this.launchProjectileToCoords(head, target.getPosX(), target.getPosY(), target.getPosZ(), head == 0 && this.rand.nextFloat() < 0.001F);
-    }
-
-    @Override
-    public void livingTick() {
-       PlayerEntity player = this.world.getClosestPlayer(this, 50D);
-        this.setAttackTarget(player);
-        super.livingTick();
-    }
-
-    private void launchProjectileToCoords(int head, double x, double y, double z, boolean invulnerable) {
+    private void launchProjectileToEntity(LivingEntity target) {
+        GeckoSpitEntity geckoSpitEntity = new GeckoSpitEntity(this.world, this);
+        double d0 = target.getPosX() - this.getPosX();
+        double d1 = target.getPosYHeight(0.3333333333333333D) - geckoSpitEntity.getPosY();
+        double d2 = target.getPosZ() - this.getPosZ();
+        float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
+        geckoSpitEntity.shoot(d0, d1 + (double)f, d2, 1.5F, 10.0F);
         if (!this.isSilent()) {
-            this.world.playEvent(null, 1024, this.getPosition(), 0);
-        }
-        WitherSkullEntity witherskullentity = new WitherSkullEntity(this.world, this, this.getPosX(), this.getPosY(), this.getPosZ());
-        witherskullentity.setShooter(this);
-        if (invulnerable) {
-            witherskullentity.setSkullInvulnerable(true);
+            this.world.playSound((PlayerEntity)null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
 
-        witherskullentity.setRawPosition(this.getPosX(), this.getPosY(), this.getPosZ());
-        this.world.addEntity(witherskullentity);
+        this.world.addEntity(geckoSpitEntity);
     }
 
 
     @Override
     public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
-        this.launchProjectileToEntity(0, (PlayerEntity)target);
+        this.launchProjectileToEntity(target);
     }
+
 
     @Override
     protected void dropSpecialItems(DamageSource source, int looting, boolean recentlyHitIn) {
@@ -127,7 +118,7 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
 
     @Override
     public boolean isNonBoss() {
-        return no;
+        return false;
     }
 
     @Override

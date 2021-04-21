@@ -47,7 +47,7 @@ public class GItems {
     //Gecko Foods
     public static final Item GECKO_FOOD = createItem(new Item(new Item.Properties().group(GECKO_TAB)), "gecko_food");
     public static final Item SPICY_GECKO_FOOD = createItem(new Item(new Item.Properties().group(GECKO_TAB)), "spicy_gecko_food");
-    public static final Item END_GECKO_FOOD = createItem(new Item(new Item.Properties().group(GECKO_TAB)), "end_gecko_food");
+    public static final Item CHORUS_GECKO_FOOD = createItem(new Item(new Item.Properties().group(GECKO_TAB)), "chorus_gecko_food");
     public static final Item GIANT_GECKO_SERUM = createItem(new Item(new Item.Properties().group(GECKO_TAB)), "giant_gecko_serum");
 
     //Boss Drops

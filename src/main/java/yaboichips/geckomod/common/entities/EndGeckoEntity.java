@@ -132,7 +132,7 @@ public class EndGeckoEntity extends GeckoEntity{
 
     @Override
     public Item getTameItem() {
-        return GItems.END_GECKO_FOOD;
+        return GItems.CHORUS_GECKO_FOOD;
     }
 
 

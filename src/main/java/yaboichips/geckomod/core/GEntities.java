@@ -5,10 +5,7 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import yaboichips.geckomod.GeckoMod;
-import yaboichips.geckomod.common.entities.EndGeckoEntity;
-import yaboichips.geckomod.common.entities.GeckoBossEntity;
-import yaboichips.geckomod.common.entities.GeckoEntity;
-import yaboichips.geckomod.common.entities.NetherGeckoEntity;
+import yaboichips.geckomod.common.entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +14,7 @@ public class GEntities {
     public static List<EntityType<?>> entities = new ArrayList<>();
 
     public static final EntityType<GeckoEntity> GECKO = createEntity("gecko", EntityType.Builder.create(GeckoEntity::new, EntityClassification.AMBIENT).build("gecko"));
+    public static final EntityType<GeckoSpitEntity> GECKOSPIT = register("gecko_spit", EntityType.Builder.<GeckoSpitEntity>create(GeckoSpitEntity::new, EntityClassification.MISC).size(0.25F, 0.25F).trackingRange(4).func_233608_b_(10), EntityType.Builder.<GeckoSpitEntity>create(GeckoSpitEntity::new, EntityClassification.MISC).size(0.25F, 0.25F).trackingRange(4).func_233608_b_(10).build("geckospit"));
     public static final EntityType<NetherGeckoEntity> NETHERGECKO = createEntity("nethergecko", EntityType.Builder.create(NetherGeckoEntity::new, EntityClassification.AMBIENT).build("nethergecko"));
     public static final EntityType<EndGeckoEntity> ENDGECKO = createEntity("endgecko", EntityType.Builder.create(EndGeckoEntity::new, EntityClassification.AMBIENT).build("endgecko"));
     public static final EntityType<GeckoBossEntity> GECKOBOSSJUNGLE = createEntity("gecko_boss_jungle", EntityType.Builder.create(GeckoBossEntity::new, EntityClassification.MONSTER).size(7f, 3f).build("gecko_boss_jungle"));
@@ -26,7 +24,14 @@ public class GEntities {
         entities.add(entityType);
         return entityType;
     }
+    private static <E extends Entity, ET extends EntityType<E>> ET register(String id, EntityType.Builder<E> builder, ET entityType) {
+        entityType.setRegistryName(new ResourceLocation(GeckoMod.MOD_ID, id));
+        entities.add(entityType);
+        return entityType;
+    }
 
-    public static void init() {
+
+
+        public static void init() {
     }
 }
