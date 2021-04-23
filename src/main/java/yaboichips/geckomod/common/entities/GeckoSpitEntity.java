@@ -85,7 +85,7 @@ public class GeckoSpitEntity extends LlamaSpitEntity {
         super.onEntityHit(p_213868_1_);
         Entity entity = this.func_234616_v_();
         if (entity instanceof LivingEntity) {
-            p_213868_1_.getEntity().attackEntityFrom(DamageSource.causeIndirectDamage(this, (LivingEntity)entity).setProjectile(), 4.0F);
+            p_213868_1_.getEntity().attackEntityFrom(DamageSource.causeIndirectDamage(this, (LivingEntity)entity).setProjectile(), 11.0F);
         }
 
     }
@@ -105,4 +105,3 @@ public class GeckoSpitEntity extends LlamaSpitEntity {
         return new SSpawnObjectPacket(this);
     }
 }
-

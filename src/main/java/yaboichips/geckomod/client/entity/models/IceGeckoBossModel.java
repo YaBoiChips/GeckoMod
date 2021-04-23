@@ -5,9 +5,9 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
-import yaboichips.geckomod.common.entities.GeckoBossEntity;
+import yaboichips.geckomod.common.entities.IceGeckoBossEntity;
 
-public class GeckoBossJungleModel<T extends GeckoBossEntity> extends EntityModel<T> {
+public class IceGeckoBossModel<T extends IceGeckoBossEntity> extends EntityModel<T> {
     public ModelRenderer Head;
     public ModelRenderer Snout;
     public ModelRenderer Tail;
@@ -20,7 +20,7 @@ public class GeckoBossJungleModel<T extends GeckoBossEntity> extends EntityModel
     public ModelRenderer bb_main;
 
 
-    public GeckoBossJungleModel() {
+    public IceGeckoBossModel() {
         textureWidth = 32;
         textureHeight = 32;
 
@@ -117,8 +117,5 @@ public class GeckoBossJungleModel<T extends GeckoBossEntity> extends EntityModel
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
-
-
-
 }
 

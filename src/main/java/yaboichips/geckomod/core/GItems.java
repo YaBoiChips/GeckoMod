@@ -36,6 +36,7 @@ public class GItems {
     //Blocks
     public static final Item GECKO_EGG = createItem(new BlockItem(GBlocks.GECKO_EGG_BLOCK, new Item.Properties().group(GECKO_TAB)), Registry.BLOCK.getKey(GBlocks.GECKO_EGG_BLOCK));
     public static final Item TERRARIUM_BLOCK = createItem(new BlockItem(GBlocks.TERRARIUM_BLOCK, new Item.Properties().group(GECKO_TAB)), Registry.BLOCK.getKey(GBlocks.TERRARIUM_BLOCK));
+    public static final Item JUNGLE_BOSS_SPAWNER = createItem(new BlockItem(GBlocks.JUNGLE_BOSS_SPAWNER, new Item.Properties().group(GECKO_TAB)), Registry.BLOCK.getKey(GBlocks.JUNGLE_BOSS_SPAWNER));
 
 
     //Armors

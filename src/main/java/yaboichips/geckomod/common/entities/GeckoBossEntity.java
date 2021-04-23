@@ -7,7 +7,6 @@ import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RangedAttackGoal;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,7 +14,6 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
@@ -24,7 +22,6 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
-import yaboichips.geckomod.core.GItems;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -54,7 +51,7 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
     public static @Nonnull
     AttributeModifierMap.MutableAttribute setCustomAttributes() {
         return MobEntity.func_233666_p_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 80.0D)
+                .createMutableAttribute(Attributes.MAX_HEALTH, 242.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0F)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 10.0D);
     }
@@ -65,7 +62,11 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
         this.dataManager.register(TARGET, 0);
     }
 
-
+    @Override
+    public void livingTick() {
+        this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+        super.livingTick();
+    }
 
     @Override
     public void setCustomName(@Nullable ITextComponent name) {
@@ -74,7 +75,7 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
     }
 
 
-    private void launchProjectileToEntity(LivingEntity target) {
+    void launchProjectileToEntity(LivingEntity target) {
         GeckoSpitEntity geckoSpitEntity = new GeckoSpitEntity(this.world, this);
         double d0 = target.getPosX() - this.getPosX();
         double d1 = target.getPosYHeight(0.3333333333333333D) - geckoSpitEntity.getPosY();
@@ -95,14 +96,7 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
     }
 
 
-    @Override
-    protected void dropSpecialItems(DamageSource source, int looting, boolean recentlyHitIn) {
-        super.dropSpecialItems(source, looting, recentlyHitIn);
-        ItemEntity itementity = this.entityDropItem(GItems.GIANT_GECKO_SCALE);
-        if (itementity != null) {
-            itementity.setNoDespawn();
-        }
-    }
+
 
     @Override
     public void addTrackingPlayer(ServerPlayerEntity player) {

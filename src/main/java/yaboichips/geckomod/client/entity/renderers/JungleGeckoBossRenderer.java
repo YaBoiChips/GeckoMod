@@ -5,17 +5,17 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import yaboichips.geckomod.GeckoMod;
-import yaboichips.geckomod.client.entity.models.GeckoBossJungleModel;
-import yaboichips.geckomod.common.entities.GeckoBossEntity;
+import yaboichips.geckomod.client.entity.models.JungleGeckoBossModel;
+import yaboichips.geckomod.common.entities.JungleGeckoBossEntity;
 
-public class GeckoBossJungleRenderer<T extends GeckoBossEntity> extends MobRenderer<T, GeckoBossJungleModel<T>> {
+public class JungleGeckoBossRenderer<T extends JungleGeckoBossEntity> extends MobRenderer<T, JungleGeckoBossModel<T>> {
 
-    public GeckoBossJungleRenderer(EntityRendererManager renderManagerIn, float scale) {
-        super(renderManagerIn, new GeckoBossJungleModel<>(), 1f);
+    public JungleGeckoBossRenderer(EntityRendererManager renderManagerIn, float scale) {
+        super(renderManagerIn, new JungleGeckoBossModel<>(), 1f);
     }
 
-    public GeckoBossJungleRenderer(EntityRendererManager manager){
-        super (manager, new GeckoBossJungleModel<>(), 1f);
+    public JungleGeckoBossRenderer(EntityRendererManager manager){
+        super (manager, new JungleGeckoBossModel<>(), 1f);
     }
 
 
@@ -26,7 +26,7 @@ public class GeckoBossJungleRenderer<T extends GeckoBossEntity> extends MobRende
     }
 
     @Override
-    public ResourceLocation getEntityTexture(GeckoBossEntity entity) {
+    public ResourceLocation getEntityTexture(JungleGeckoBossEntity entity) {
        return new ResourceLocation(GeckoMod.MOD_ID, "textures/entity/gecko/green_gecko.png");
     }
 

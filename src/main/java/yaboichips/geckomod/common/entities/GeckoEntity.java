@@ -5,7 +5,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -96,7 +96,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(9, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(10, new LeapAtTargetGoal(this, 0.4f));
-        this.targetSelector.addGoal(11, new NearestAttackableTargetGoal<>(this, PigEntity.class, false));
+        this.targetSelector.addGoal(11, new NearestAttackableTargetGoal<>(this, BeeEntity.class, false));
     }
 
     @Override

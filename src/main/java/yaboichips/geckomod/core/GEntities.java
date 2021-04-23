@@ -17,7 +17,8 @@ public class GEntities {
     public static final EntityType<GeckoSpitEntity> GECKOSPIT = register("gecko_spit", EntityType.Builder.<GeckoSpitEntity>create(GeckoSpitEntity::new, EntityClassification.MISC).size(0.25F, 0.25F).trackingRange(4).func_233608_b_(10), EntityType.Builder.<GeckoSpitEntity>create(GeckoSpitEntity::new, EntityClassification.MISC).size(0.25F, 0.25F).trackingRange(4).func_233608_b_(10).build("geckospit"));
     public static final EntityType<NetherGeckoEntity> NETHERGECKO = createEntity("nethergecko", EntityType.Builder.create(NetherGeckoEntity::new, EntityClassification.AMBIENT).build("nethergecko"));
     public static final EntityType<EndGeckoEntity> ENDGECKO = createEntity("endgecko", EntityType.Builder.create(EndGeckoEntity::new, EntityClassification.AMBIENT).build("endgecko"));
-    public static final EntityType<GeckoBossEntity> GECKOBOSSJUNGLE = createEntity("gecko_boss_jungle", EntityType.Builder.create(GeckoBossEntity::new, EntityClassification.MONSTER).size(7f, 3f).build("gecko_boss_jungle"));
+    public static final EntityType<JungleGeckoBossEntity> GECKOBOSSJUNGLE = createEntity("gecko_boss_jungle", EntityType.Builder.create(JungleGeckoBossEntity::new, EntityClassification.MONSTER).size(6f, 3f).build("gecko_boss_jungle"));
+    public static final EntityType<IceGeckoBossEntity> GECKOBOSSICE = createEntity("gecko_boss_ice", EntityType.Builder.create(IceGeckoBossEntity::new, EntityClassification.MONSTER).size(6f, 3f).build("gecko_boss_ice"));
 
     public static <E extends Entity, ET extends EntityType<E>> ET createEntity(String id, ET entityType) {
         entityType.setRegistryName(new ResourceLocation(GeckoMod.MOD_ID, id));

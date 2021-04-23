@@ -73,7 +73,9 @@ public class EndGeckoEntity extends GeckoEntity{
         this.goalSelector.addGoal(10, new LeapAtTargetGoal(this, 0.4f));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(11, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false));
+        if (!this.isTamed()) {
+            this.targetSelector.addGoal(11, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false));
+        }
     }
 
     @Override

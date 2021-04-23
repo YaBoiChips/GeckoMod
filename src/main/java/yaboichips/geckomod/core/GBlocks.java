@@ -6,6 +6,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import yaboichips.geckomod.GeckoMod;
 import yaboichips.geckomod.common.blocks.GeckoEggBlock;
+import yaboichips.geckomod.common.blocks.JungleBossSpawnBlock;
 import yaboichips.geckomod.common.blocks.TerrariumBlock;
 
 import javax.annotation.Nonnull;
@@ -19,10 +20,16 @@ public class GBlocks {
 
     public static Block GECKO_EGG_BLOCK = createEggBlock("gecko_egg");
     public static Block TERRARIUM_BLOCK = createTerrariumBlock("terrarium_block");
+    public static Block JUNGLE_BOSS_SPAWNER = createSpawnerBlock("jungle_boss_spawner");
 
 
     static @Nonnull Block createTerrariumBlock(String id) {
         Block createBlock = new TerrariumBlock(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(4.0f, 1.5f).sound(SoundType.GLASS));
+        return registerBlock(id, createBlock);
+    }
+
+    static @Nonnull Block createSpawnerBlock(String id) {
+        Block createBlock = new JungleBossSpawnBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CHAIN));
         return registerBlock(id, createBlock);
     }
 
