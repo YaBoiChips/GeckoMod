@@ -86,6 +86,9 @@ public class GeckoMod {
         if (category == Biome.Category.DESERT) {
             generation.getStructures().add(() -> GConfiguredStructures.CONFIGURED_FIRE_BOSS_AREA);
         }
+        if (category == Biome.Category.FOREST) {
+            generation.getStructures().add(() -> GConfiguredStructures.CONFIGURED_FLOWER_BOSS_AREA);
+        }
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

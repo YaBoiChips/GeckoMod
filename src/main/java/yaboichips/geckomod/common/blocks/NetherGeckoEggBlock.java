@@ -14,16 +14,16 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import yaboichips.geckomod.common.entities.GeckoEntity;
+import yaboichips.geckomod.common.entities.NetherGeckoEntity;
 import yaboichips.geckomod.core.GEntities;
 
 import java.util.Random;
 
-public class GeckoEggBlock extends Block {
+public class NetherGeckoEggBlock extends Block {
     private static final VoxelShape GECKO_EGG_SHAPE = Block.makeCuboidShape(3.0D, 0.0D, 3.0D, 12.0D, 7.0D, 12.0D);
     public static final IntegerProperty HATCH = BlockStateProperties.HATCH_0_2;
 
-    public GeckoEggBlock(Properties properties) {
+    public NetherGeckoEggBlock(Properties properties) {
         super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(HATCH, Integer.valueOf(0)));
     }
@@ -39,7 +39,7 @@ public class GeckoEggBlock extends Block {
                 worldIn.playSound((PlayerEntity)null, pos, SoundEvents.ENTITY_TURTLE_EGG_HATCH, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
                 worldIn.removeBlock(pos, false);
                     worldIn.playEvent(2001, pos, Block.getStateId(state));
-                    GeckoEntity geckoentity = GEntities.GECKO.create(worldIn);
+                    NetherGeckoEntity geckoentity = GEntities.NETHERGECKO.create(worldIn);
                     geckoentity.setGrowingAge(-24000);
                     geckoentity.setLocationAndAngles((double)pos.getX() + 0.3D , pos.getY(), (double)pos.getZ() + 0.3D, 0.0F, 0.0F);
                     worldIn.addEntity(geckoentity);

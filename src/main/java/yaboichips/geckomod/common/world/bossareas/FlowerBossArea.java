@@ -23,8 +23,8 @@ import yaboichips.geckomod.core.GEntities;
 
 import java.util.List;
 
-public class FireBossArea extends Structure<NoFeatureConfig> {
-    public FireBossArea(Codec<NoFeatureConfig> codec) {
+public class FlowerBossArea extends Structure<NoFeatureConfig> {
+    public FlowerBossArea(Codec<NoFeatureConfig> codec) {
         super(codec);
     }
 
@@ -42,7 +42,7 @@ public class FireBossArea extends Structure<NoFeatureConfig> {
             JigsawManager.func_242837_a(
                     dynamicRegistryManager,
                     new VillageConfig(() -> dynamicRegistryManager.getRegistry(Registry.JIGSAW_POOL_KEY)
-                            .getOrDefault(new ResourceLocation(GeckoMod.MOD_ID, "fire_boss_area/start_pool")),
+                            .getOrDefault(new ResourceLocation(GeckoMod.MOD_ID, "flower_boss_area/start_pool")),
                             10),
                     AbstractVillagePiece::new,
                     chunkGenerator,
@@ -64,7 +64,7 @@ public class FireBossArea extends Structure<NoFeatureConfig> {
 
         @Override
     public IStartFactory<NoFeatureConfig> getStartFactory() {
-        return FireBossArea.Start::new;
+        return FlowerBossArea.Start::new;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class FireBossArea extends Structure<NoFeatureConfig> {
 
 
     private static final List<MobSpawnInfo.Spawners> STRUCTURE_MONSTERS = ImmutableList.of(
-            new MobSpawnInfo.Spawners(GEntities.GECKOBOSSFIRE, 10000, 1, 1)
+            new MobSpawnInfo.Spawners(GEntities.GECKOBOSSFLOWER, 10000, 1, 1)
     );
 
     @Override

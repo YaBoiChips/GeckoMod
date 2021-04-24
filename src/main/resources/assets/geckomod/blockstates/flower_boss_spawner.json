@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "geckomod:block/flower_boss_spawner"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "geckomod:block/flower_boss_spawner"
+  }
+}

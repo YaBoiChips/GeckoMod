@@ -17,6 +17,8 @@ public class GBlocks {
 
 
     public static Block GECKO_EGG_BLOCK = createEggBlock("gecko_egg");
+    public static Block NETHER_GECKO_EGG_BLOCK = createEggBlock("nether_gecko_egg");
+    public static Block END_GECKO_EGG_BLOCK = createEggBlock("end_gecko_egg");
     public static Block TERRARIUM_BLOCK = createTerrariumBlock("terrarium_block");
     public static Block JUNGLE_BOSS_SPAWNER = createJungleSpawnerBlock("jungle_boss_spawner");
     public static Block ICE_BOSS_SPAWNER = createIceSpawnerBlock("ice_boss_spawner");

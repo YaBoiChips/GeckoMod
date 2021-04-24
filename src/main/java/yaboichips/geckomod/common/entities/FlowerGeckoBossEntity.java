@@ -32,7 +32,7 @@ public class FlowerGeckoBossEntity extends GeckoBossEntity {
         List<PlayerEntity> list = this.world.getEntitiesWithinAABB(PlayerEntity.class, axisalignedbb);
         for (PlayerEntity playerentity : list) {
             if (this.getTicksNearBoss() >= 15) {
-                playerentity.addPotionEffect(new EffectInstance(Effects.POISON, 10 , 0));
+                playerentity.addPotionEffect(new EffectInstance(Effects.POISON, 30 , 1));
             }
         }
         super.livingTick();
@@ -41,7 +41,7 @@ public class FlowerGeckoBossEntity extends GeckoBossEntity {
     @Override
     protected void dropSpecialItems(DamageSource source, int looting, boolean recentlyHitIn) {
         super.dropSpecialItems(source, looting, recentlyHitIn);
-        ItemEntity itementity = this.entityDropItem(GItems.GIANT_GECKO_TOOTH);
+        ItemEntity itementity = this.entityDropItem(GItems.GIANT_GECKO_EYE);
         if (itementity != null) {
             itementity.setNoDespawn();
         }

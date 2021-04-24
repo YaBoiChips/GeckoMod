@@ -15,15 +15,19 @@ public class GConfiguredStructures {
     public static StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> CONFIGURED_JUNGLE_BOSS_AREA = GStructures.JUNGLE_BOSS_AREA.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
     public static StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> CONFIGURED_ICE_BOSS_AREA = GStructures.ICE_BOSS_AREA.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
     public static StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> CONFIGURED_FIRE_BOSS_AREA = GStructures.FIRE_BOSS_AREA.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
+    public static StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> CONFIGURED_FLOWER_BOSS_AREA = GStructures.FLOWER_BOSS_AREA.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
 
     public static void registerConfiguredStructures() {
         Registry<StructureFeature<?, ?>> registry = WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE;
         Registry.register(registry, new ResourceLocation(GeckoMod.MOD_ID, "configured_jungle_boss_area"), CONFIGURED_JUNGLE_BOSS_AREA);
         Registry.register(registry, new ResourceLocation(GeckoMod.MOD_ID, "configured_ice_boss_area"), CONFIGURED_ICE_BOSS_AREA);
         Registry.register(registry, new ResourceLocation(GeckoMod.MOD_ID, "configured_fire_boss_area"), CONFIGURED_FIRE_BOSS_AREA);
+        Registry.register(registry, new ResourceLocation(GeckoMod.MOD_ID, "configured_flower_boss_area"), CONFIGURED_FLOWER_BOSS_AREA);
         FlatGenerationSettings.STRUCTURES.put(GStructures.FIRE_BOSS_AREA.get(), CONFIGURED_FIRE_BOSS_AREA);
         FlatGenerationSettings.STRUCTURES.put(GStructures.JUNGLE_BOSS_AREA.get(), CONFIGURED_JUNGLE_BOSS_AREA);
         FlatGenerationSettings.STRUCTURES.put(GStructures.ICE_BOSS_AREA.get(), CONFIGURED_ICE_BOSS_AREA);
+        FlatGenerationSettings.STRUCTURES.put(GStructures.FLOWER_BOSS_AREA.get(), CONFIGURED_FLOWER_BOSS_AREA);
+
 
     }
 }

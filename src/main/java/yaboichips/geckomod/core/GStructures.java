@@ -12,6 +12,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import yaboichips.geckomod.GeckoMod;
 import yaboichips.geckomod.common.world.bossareas.FireBossArea;
+import yaboichips.geckomod.common.world.bossareas.FlowerBossArea;
 import yaboichips.geckomod.common.world.bossareas.IceBossArea;
 import yaboichips.geckomod.common.world.bossareas.JungleBossArea;
 
@@ -25,12 +26,14 @@ public class GStructures {
     public static final RegistryObject<Structure<NoFeatureConfig>> JUNGLE_BOSS_AREA = DEFERRED_REGISTRY_STRUCTURE.register("jungle_boss_area", () -> (new JungleBossArea(NoFeatureConfig.field_236558_a_)));
     public static final RegistryObject<Structure<NoFeatureConfig>> ICE_BOSS_AREA = DEFERRED_REGISTRY_STRUCTURE.register("ice_boss_area", () -> (new IceBossArea(NoFeatureConfig.field_236558_a_)));
     public static final RegistryObject<Structure<NoFeatureConfig>> FIRE_BOSS_AREA = DEFERRED_REGISTRY_STRUCTURE.register("fire_boss_area", () -> (new FireBossArea(NoFeatureConfig.field_236558_a_)));
+    public static final RegistryObject<Structure<NoFeatureConfig>> FLOWER_BOSS_AREA = DEFERRED_REGISTRY_STRUCTURE.register("flower_boss_area", () -> (new FlowerBossArea(NoFeatureConfig.field_236558_a_)));
 
 
     public static void setupStructures() {
         setupMapSpacingAndLand(JUNGLE_BOSS_AREA.get(), new StructureSeparationSettings(80, 20 , 42069911), true);
         setupMapSpacingAndLand(ICE_BOSS_AREA.get(), new StructureSeparationSettings(80, 20 , 42069911), true);
         setupMapSpacingAndLand(FIRE_BOSS_AREA.get(), new StructureSeparationSettings(80, 20 , 42069911), true);
+        setupMapSpacingAndLand(FLOWER_BOSS_AREA.get(), new StructureSeparationSettings(80, 20 , 42069911), true);
     }
 
     public static <F extends Structure<?>> void setupMapSpacingAndLand(

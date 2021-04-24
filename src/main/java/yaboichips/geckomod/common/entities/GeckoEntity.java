@@ -1,12 +1,15 @@
 package yaboichips.geckomod.common.entities;
 
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -15,17 +18,16 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.Effects;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.ForgeEventFactory;
+import yaboichips.geckomod.core.GBlocks;
 import yaboichips.geckomod.core.GEntities;
 import yaboichips.geckomod.core.GItems;
 import yaboichips.geckomod.util.GKeyBinds;
@@ -45,6 +47,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     private static final DataParameter<Boolean> GIANT = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> COMMAND = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> SETGIANT = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Boolean> HAS_EGG = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.BOOLEAN);
     public static final EntitySize GECKO_SIZE = EntitySize.flexible(0.4f,0.4f);
     public static final EntitySize GIANT_SIZE = EntitySize.flexible(1.9f,1.2f);
     private final BoostHelper boostHelper = new BoostHelper(this.dataManager, COMMAND, GIANT);
@@ -76,6 +79,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         this.dataManager.register(ARMOR_TYPE, 0);
         this.dataManager.register(COMMAND, 0);
         this.dataManager.register(SETGIANT, 0);
+        this.dataManager.register(HAS_EGG, false);
         this.dataManager.register(GIANT, Boolean.FALSE);
         this.dataManager.register(STANDING, Boolean.FALSE);
         this.dataManager.register(SITTING, Boolean.FALSE);
@@ -85,12 +89,12 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(1, new GeckoEntity.MateGoal(this, 1.0D));
+        this.goalSelector.addGoal(1, new GeckoEntity.LayEggGoal(this, 1.0D));
         this.goalSelector.addGoal(0, new SitGoal(this));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(1, new FollowOwnerGoal(this, 1.5D, 10.0F, 2.0F, true));
         this.goalSelector.addGoal(6, new MeleeAttackGoal(this, 1.0D, false));
-        this.goalSelector.addGoal(7, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(9, new LookRandomlyGoal(this));
@@ -101,6 +105,14 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     @Override
     public boolean isElytraFlying() {
         return this.isGiant();
+    }
+
+    public boolean hasEgg() {
+        return this.dataManager.get(HAS_EGG);
+    }
+
+    void setHasEgg(boolean hasEgg) {
+        this.dataManager.set(HAS_EGG, hasEgg);
     }
 
     @Override
@@ -142,6 +154,8 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     public boolean canBeLeashedTo(PlayerEntity player) {
         return super.canBeLeashedTo(player);
     }
+
+
 
     @Override
     public void setTamed(boolean tamed) {
@@ -416,6 +430,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     public void tick() {
         super.tick();
         setClimbing(!world.isRemote && collidedHorizontally);
+
     }
 
     @Override
@@ -472,6 +487,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         compound.putInt("Armor", this.getArmor());
         compound.putBoolean("GeckoSitting", this.isSitting());
         compound.putBoolean("GeckoGiant", this.isGiant());
+        compound.putBoolean("HasEgg", this.hasEgg());
         compound.putBoolean("ForcedToSit", this.forcedSit);
         compound.putInt("GeckoCommand", this.getCommand());
         compound.putInt("SetGiant", this.getSetGiant());
@@ -487,6 +503,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         this.setSitting(compound.getBoolean("GeckoSitting"));
         this.forcedSit = compound.getBoolean("ForcedToSit");
         this.forcedGiant = compound.getBoolean("ForcedGiant");
+        this.setHasEgg(compound.getBoolean("HasEgg"));
         this.setGiant(compound.getBoolean("GeckoGiant"));
         this.setCommand(compound.getInt("GeckoCommand"));
         this.setSetGiant(compound.getInt("SetGiant"));
@@ -570,6 +587,72 @@ public class GeckoEntity extends TameableEntity implements IRideable{
 
         public static SkinColors byIndex(int index) {
             return Maths.get(SkinColors.values(), index);
+        }
+    }
+
+    public boolean canFallInLove() {
+        return super.canFallInLove() && !this.hasEgg();
+    }
+
+
+    static class MateGoal extends BreedGoal {
+        private final GeckoEntity gecko;
+
+        MateGoal(GeckoEntity gecko, double speedIn) {
+            super(gecko, speedIn);
+            this.gecko = gecko;
+        }
+        public boolean shouldExecute() {
+            return super.shouldExecute() && !this.gecko.hasEgg();
+        }
+
+        protected void spawnBaby() {
+            ServerPlayerEntity serverplayerentity = this.animal.getLoveCause();
+            if (serverplayerentity == null && this.targetMate.getLoveCause() != null) {
+                serverplayerentity = this.targetMate.getLoveCause();
+            }
+
+            if (serverplayerentity != null) {
+                serverplayerentity.addStat(Stats.ANIMALS_BRED);
+                CriteriaTriggers.BRED_ANIMALS.trigger(serverplayerentity, this.animal, this.targetMate, (AgeableEntity)null);
+            }
+
+            this.gecko.setHasEgg(true);
+            this.animal.resetInLove();
+            this.targetMate.resetInLove();
+            Random random = this.animal.getRNG();
+            if (this.world.getGameRules().getBoolean(GameRules.DO_MOB_LOOT)) {
+                this.world.addEntity(new ExperienceOrbEntity(this.world, this.animal.getPosX(), this.animal.getPosY(), this.animal.getPosZ(), random.nextInt(7) + 1));
+            }
+        }
+    }
+
+    static class LayEggGoal extends MoveToBlockGoal {
+        private final GeckoEntity gecko;
+
+        LayEggGoal(GeckoEntity gecko, double speedIn) {
+            super(gecko, speedIn, 16);
+            this.gecko = gecko;
+        }
+        public boolean shouldExecute() {
+            return this.gecko.hasEgg();
+        }
+        public boolean shouldContinueExecuting() {
+            return super.shouldContinueExecuting() && this.gecko.hasEgg();
+        }
+
+        public void tick() {
+            super.tick();
+            BlockPos blockpos = this.gecko.getPosition();
+            World world = this.gecko.world;
+            world.setBlockState(blockpos, GBlocks.GECKO_EGG_BLOCK.getDefaultState());
+            this.gecko.setHasEgg(false);
+            this.gecko.setInLove(600);
+        }
+
+        @Override
+        protected boolean shouldMoveTo(IWorldReader worldIn, BlockPos pos) {
+            return !worldIn.isAirBlock(pos.up());
         }
     }
 }
