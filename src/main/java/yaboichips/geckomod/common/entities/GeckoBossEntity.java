@@ -15,6 +15,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -25,9 +26,11 @@ import net.minecraft.world.server.ServerBossInfo;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
+    protected int ticksNearBoss;
     private static final DataParameter<Integer> TARGET = EntityDataManager.createKey(GeckoBossEntity.class, DataSerializers.VARINT);
     private final ServerBossInfo bossInfo = (ServerBossInfo)(new ServerBossInfo(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
     private static final Predicate<LivingEntity> NOT_UNDEAD = (mob) -> {
@@ -53,6 +56,7 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
         return MobEntity.func_233666_p_()
                 .createMutableAttribute(Attributes.MAX_HEALTH, 242.0D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0F)
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 22.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 10.0D);
     }
 
@@ -62,9 +66,31 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
         this.dataManager.register(TARGET, 0);
     }
 
+    public int getTicksNearBoss(){
+        return this.ticksNearBoss;
+    }
+
     @Override
     public void livingTick() {
         this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+        AxisAlignedBB axisalignedbb = (new AxisAlignedBB(this.getPosition())).grow(4).expand(0.0D, this.world.getHeight(), 0.0D);
+        List<PlayerEntity> list = this.world.getEntitiesWithinAABB(PlayerEntity.class, axisalignedbb);
+        for (PlayerEntity playerentity : list) {
+            ++this.ticksNearBoss;
+            if (getTicksNearBoss() >= 80){
+                float f7 = playerentity.rotationYaw;
+                float f = playerentity.rotationPitch;
+                float f1 = -MathHelper.sin(f7 * ((float)Math.PI / 180F)) * MathHelper.cos(f * ((float)Math.PI / 180F));
+                float f2 = -MathHelper.sin(f * ((float)Math.PI / 180F));
+                float f3 = MathHelper.cos(f7 * ((float)Math.PI / 180F)) * MathHelper.cos(f * ((float)Math.PI / 180F));
+                float f4 = MathHelper.sqrt(f1 * f1 + f2 * f2 + f3 * f3);
+                float f5 = 4.2F;
+                f1 = f1 * (f5 / f4);
+                f3 = f3 * (f5 / f4);
+                playerentity.addVelocity(-f1 ,2, -f3);
+                this.ticksNearBoss = 0;
+            }
+        }
         super.livingTick();
     }
 

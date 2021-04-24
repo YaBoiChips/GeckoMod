@@ -15,7 +15,7 @@ import yaboichips.geckomod.core.GItems;
 
 public class IceGeckoBossEntity extends GeckoBossEntity{
 
-    private final ServerBossInfo bossInfo = (ServerBossInfo)(new ServerBossInfo(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
+    private final ServerBossInfo bossInfo = (ServerBossInfo)(new ServerBossInfo(this.getDisplayName(), BossInfo.Color.WHITE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
 
 
     public IceGeckoBossEntity(EntityType<? extends MonsterEntity> type, World worldIn) {

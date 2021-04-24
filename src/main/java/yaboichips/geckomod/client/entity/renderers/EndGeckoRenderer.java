@@ -15,7 +15,7 @@ public class EndGeckoRenderer <T extends EndGeckoEntity> extends AbstractRendere
 
     public static final Map<EndGeckoEntity.SkinColors, ResourceLocation> GECKO_TEXTURE = Util.make(Maps.newEnumMap(EndGeckoEntity.SkinColors.class), (map) -> {
         map.put(EndGeckoEntity.SkinColors.BLACKEND,   createTexture("black_end"));
-        map.put(EndGeckoEntity.SkinColors.PURPLEEND,  createTexture("purple_end"));
+        map.put(EndGeckoEntity.SkinColors.PURPLEEND,  createTexture("white_end"));
 
     });
     public EndGeckoRenderer(EntityRendererManager manager) {

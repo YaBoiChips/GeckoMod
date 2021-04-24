@@ -2,5 +2,6 @@
   "entity.gecko.command_0" : "Following",
   "entity.gecko.command_1" : "Sitting",
   "entity.geckomod.gecko_boss_ice" : "Ice Gecko Giant",
-  "entity.geckomod.gecko_boss_jungle" : "Jungle Gecko Giant"
+  "entity.geckomod.gecko_boss_jungle" : "Jungle Gecko Giant",
+  "entity.geckomod.gecko_boss_fire": "Fire Gecko Giant"
 }

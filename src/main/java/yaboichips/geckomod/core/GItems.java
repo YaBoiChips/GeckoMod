@@ -30,6 +30,7 @@ public class GItems {
 
     public static final Item GECKO_SPAWN_EGG = createItem(new SpawnEggItem(GEntities.GECKO, 81763, 91239231, (new Item.Properties().group(GECKO_TAB))), "gecko_spawn_egg");
     public static final Item NETHER_GECKO_SPAWN_EGG = createItem(new SpawnEggItem(GEntities.NETHERGECKO, 9123931, 2134, (new Item.Properties().group(GECKO_TAB))), "nether_gecko_spawn_egg");
+    public static final Item END_GECKO_SPAWN_EGG = createItem(new SpawnEggItem(GEntities.ENDGECKO, 146523931, 21324354, (new Item.Properties().group(GECKO_TAB))), "end_gecko_spawn_egg");
     public static final Item GECKO_STAFF = createItem(new Item(new Item.Properties().group(GECKO_TAB)), "gecko_staff");
     public static final Item GECKO_POUCH = createItem(new GeckoPouchItem(new Item.Properties().group(GECKO_TAB)), "gecko_pouch");
 
@@ -37,6 +38,9 @@ public class GItems {
     public static final Item GECKO_EGG = createItem(new BlockItem(GBlocks.GECKO_EGG_BLOCK, new Item.Properties().group(GECKO_TAB)), Registry.BLOCK.getKey(GBlocks.GECKO_EGG_BLOCK));
     public static final Item TERRARIUM_BLOCK = createItem(new BlockItem(GBlocks.TERRARIUM_BLOCK, new Item.Properties().group(GECKO_TAB)), Registry.BLOCK.getKey(GBlocks.TERRARIUM_BLOCK));
     public static final Item JUNGLE_BOSS_SPAWNER = createItem(new BlockItem(GBlocks.JUNGLE_BOSS_SPAWNER, new Item.Properties().group(GECKO_TAB)), Registry.BLOCK.getKey(GBlocks.JUNGLE_BOSS_SPAWNER));
+    public static final Item ICE_BOSS_SPAWNER = createItem(new BlockItem(GBlocks.ICE_BOSS_SPAWNER, new Item.Properties().group(GECKO_TAB)), Registry.BLOCK.getKey(GBlocks.ICE_BOSS_SPAWNER));
+    public static final Item FIRE_BOSS_SPAWNER = createItem(new BlockItem(GBlocks.FIRE_BOSS_SPAWNER, new Item.Properties().group(GECKO_TAB)), Registry.BLOCK.getKey(GBlocks.FIRE_BOSS_SPAWNER));
+    public static final Item FLOWER_BOSS_SPAWNER = createItem(new BlockItem(GBlocks.FLOWER_BOSS_SPAWNER, new Item.Properties().group(GECKO_TAB)), Registry.BLOCK.getKey(GBlocks.FLOWER_BOSS_SPAWNER));
 
 
     //Armors

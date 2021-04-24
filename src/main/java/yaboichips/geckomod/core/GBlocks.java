@@ -5,9 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import yaboichips.geckomod.GeckoMod;
-import yaboichips.geckomod.common.blocks.GeckoEggBlock;
-import yaboichips.geckomod.common.blocks.JungleBossSpawnBlock;
-import yaboichips.geckomod.common.blocks.TerrariumBlock;
+import yaboichips.geckomod.common.blocks.*;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -20,7 +18,11 @@ public class GBlocks {
 
     public static Block GECKO_EGG_BLOCK = createEggBlock("gecko_egg");
     public static Block TERRARIUM_BLOCK = createTerrariumBlock("terrarium_block");
-    public static Block JUNGLE_BOSS_SPAWNER = createSpawnerBlock("jungle_boss_spawner");
+    public static Block JUNGLE_BOSS_SPAWNER = createJungleSpawnerBlock("jungle_boss_spawner");
+    public static Block ICE_BOSS_SPAWNER = createIceSpawnerBlock("ice_boss_spawner");
+    public static Block FIRE_BOSS_SPAWNER = createFireSpawnerBlock("fire_boss_spawner");
+    public static Block FLOWER_BOSS_SPAWNER = createFlowerSpawnerBlock("flower_boss_spawner");
+
 
 
     static @Nonnull Block createTerrariumBlock(String id) {
@@ -28,8 +30,23 @@ public class GBlocks {
         return registerBlock(id, createBlock);
     }
 
-    static @Nonnull Block createSpawnerBlock(String id) {
-        Block createBlock = new JungleBossSpawnBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CHAIN));
+    static @Nonnull Block createJungleSpawnerBlock(String id) {
+        Block createBlock = new JungleBossSpawnBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CHAIN).notSolid());
+        return registerBlock(id, createBlock);
+    }
+
+    static @Nonnull Block createIceSpawnerBlock(String id) {
+        Block createBlock = new IceBossSpawnBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CHAIN).notSolid());
+        return registerBlock(id, createBlock);
+    }
+
+    static @Nonnull Block createFireSpawnerBlock(String id) {
+        Block createBlock = new FireBossSpawnBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CHAIN).notSolid());
+        return registerBlock(id, createBlock);
+    }
+
+    static @Nonnull Block createFlowerSpawnerBlock(String id) {
+        Block createBlock = new FlowerBossSpawnBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CHAIN).notSolid());
         return registerBlock(id, createBlock);
     }
 

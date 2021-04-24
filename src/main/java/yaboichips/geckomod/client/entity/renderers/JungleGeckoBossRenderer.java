@@ -21,13 +21,13 @@ public class JungleGeckoBossRenderer<T extends JungleGeckoBossEntity> extends Mo
 
     @Override
     protected void preRenderCallback(T entitylivingbaseIn, MatrixStack matrices, float partialTickTime) {
-        matrices.scale( 12f,  10f, 15f);
+        matrices.scale( 15f,  15f, 15f);
         super.preRenderCallback(entitylivingbaseIn, matrices, partialTickTime);
     }
 
     @Override
     public ResourceLocation getEntityTexture(JungleGeckoBossEntity entity) {
-       return new ResourceLocation(GeckoMod.MOD_ID, "textures/entity/gecko/green_gecko.png");
+       return new ResourceLocation(GeckoMod.MOD_ID, "textures/entity/gecko/gecko_boss_jungle.png");
     }
 
 }

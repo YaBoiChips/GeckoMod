@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "geckomod:block/ice_boss_spawner"
+    }
+  }
+}

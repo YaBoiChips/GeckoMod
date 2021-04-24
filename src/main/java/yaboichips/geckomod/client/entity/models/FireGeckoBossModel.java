@@ -5,9 +5,9 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
-import yaboichips.geckomod.common.entities.JungleGeckoBossEntity;
+import yaboichips.geckomod.common.entities.FireGeckoBossEntity;
 
-public class JungleGeckoBossModel<T extends JungleGeckoBossEntity> extends EntityModel<T> {
+public class FireGeckoBossModel<T extends FireGeckoBossEntity> extends EntityModel<T> {
     private final ModelRenderer head;
     private final ModelRenderer cube_r1;
     private final ModelRenderer cube_r2;
@@ -23,18 +23,25 @@ public class JungleGeckoBossModel<T extends JungleGeckoBossEntity> extends Entit
     private final ModelRenderer cube_r5;
     private final ModelRenderer rightarm;
     private final ModelRenderer cube_r6;
-    private final ModelRenderer leftarm;
+    private final ModelRenderer spike3;
     private final ModelRenderer cube_r7;
-    private final ModelRenderer rightleg;
+    private final ModelRenderer leftarm;
     private final ModelRenderer cube_r8;
-    private final ModelRenderer leftleg;
+    private final ModelRenderer spike2;
     private final ModelRenderer cube_r9;
+    private final ModelRenderer rightleg;
+    private final ModelRenderer cube_r10;
+    private final ModelRenderer spike;
+    private final ModelRenderer leftleg;
+    private final ModelRenderer cube_r11;
+    private final ModelRenderer spike4;
+    private final ModelRenderer cube_r12;
     private final ModelRenderer tail;
     private final ModelRenderer spike_r3;
     private final ModelRenderer tail2;
     private final ModelRenderer spike_r4;
 
-    public JungleGeckoBossModel() {
+    public FireGeckoBossModel() {
         textureWidth = 32;
         textureHeight = 32;
 
@@ -47,15 +54,15 @@ public class JungleGeckoBossModel<T extends JungleGeckoBossEntity> extends Entit
         cube_r1.setRotationPoint(0.0454F, 7.2187F, 2.531F);
         head.addChild(cube_r1);
         setRotationAngle(cube_r1, 0.0F, 1.5708F, 0.0F);
-        cube_r1.setTextureOffset(4, 0).addBox(3.0216F, -9.2333F, -2.0F, 1.0F, 1.0F, 1.0F, 0.0F, false);
-        cube_r1.setTextureOffset(4, 0).addBox(3.0216F, -9.2333F, 1.0F, 1.0F, 1.0F, 1.0F, 0.0F, false);
+        cube_r1.setTextureOffset(11, 0).addBox(3.0216F, -9.2333F, -2.0F, 1.0F, 1.0F, 1.0F, 0.0F, false);
+        cube_r1.setTextureOffset(11, 0).addBox(3.0216F, -9.2333F, 1.0F, 1.0F, 1.0F, 1.0F, 0.0F, false);
 
         cube_r2 = new ModelRenderer(this);
         cube_r2.setRotationPoint(0.0454F, 7.2187F, 2.531F);
         head.addChild(cube_r2);
         setRotationAngle(cube_r2, 0.0F, 1.5708F, 0.0F);
         cube_r2.setTextureOffset(2, 9).addBox(2.0216F, -8.2333F, -2.0F, 3.0F, 3.0F, 4.0F, 0.0F, false);
-        cube_r2.setTextureOffset(0, 2).addBox(5.0216F, -7.2333F, -1.0F, 2.0F, 2.0F, 2.0F, 0.0F, false);
+        cube_r2.setTextureOffset(0, 7).addBox(5.0216F, -7.2333F, -1.0F, 2.0F, 2.0F, 2.0F, 0.0F, false);
 
         neck = new ModelRenderer(this);
         neck.setRotationPoint(-1.0F, 23.0F, 0.0F);
@@ -65,8 +72,8 @@ public class JungleGeckoBossModel<T extends JungleGeckoBossEntity> extends Entit
         cube_r3.setRotationPoint(1.5454F, -5.7813F, 0.531F);
         neck.addChild(cube_r3);
         setRotationAngle(cube_r3, 0.0F, 1.5708F, 0.0F);
-        cube_r3.setTextureOffset(5, 0).addBox(1.4856F, -7.2187F, -1.5F, 2.0F, 2.0F, 3.0F, 0.0F, false);
-        cube_r3.setTextureOffset(0, 0).addBox(1.4856F, -8.2187F, -0.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
+        cube_r3.setTextureOffset(11, 3).addBox(1.4856F, -7.2187F, -1.5F, 2.0F, 2.0F, 3.0F, 0.0F, false);
+        cube_r3.setTextureOffset(0, 0).addBox(1.4856F, -9.2187F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
 
         neck1 = new ModelRenderer(this);
         neck1.setRotationPoint(8.0F, -2.0F, 0.0F);
@@ -78,8 +85,8 @@ public class JungleGeckoBossModel<T extends JungleGeckoBossEntity> extends Entit
         spike_r1.setRotationPoint(-3.9793F, -6.3345F, 0.531F);
         neck1.addChild(spike_r1);
         setRotationAngle(spike_r1, -1.5708F, 1.0908F, -1.0908F);
-        spike_r1.setTextureOffset(0, 0).addBox(3.0067F, -6.6512F, -0.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
-        spike_r1.setTextureOffset(0, 2).addBox(3.0067F, -5.6512F, -1.5F, 2.0F, 2.0F, 3.0F, 0.0F, false);
+        spike_r1.setTextureOffset(0, 0).addBox(3.0067F, -7.6512F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
+        spike_r1.setTextureOffset(1, 4).addBox(3.0067F, -5.6512F, -1.5F, 2.0F, 2.0F, 3.0F, 0.0F, false);
 
         neck2 = new ModelRenderer(this);
         neck2.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -104,8 +111,8 @@ public class JungleGeckoBossModel<T extends JungleGeckoBossEntity> extends Entit
         spike_r2.setRotationPoint(0.7776F, -5.9336F, 0.531F);
         neck3.addChild(spike_r2);
         setRotationAngle(spike_r2, 1.5708F, 1.4399F, 1.4399F);
-        spike_r2.setTextureOffset(0, 0).addBox(-2.7469F, -4.0705F, -0.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
-        spike_r2.setTextureOffset(0, 2).addBox(-1.7469F, -5.0705F, -1.5F, 2.0F, 2.0F, 3.0F, 0.0F, false);
+        spike_r2.setTextureOffset(0, 0).addBox(-3.7469F, -4.0705F, -0.5F, 2.0F, 1.0F, 1.0F, 0.0F, false);
+        spike_r2.setTextureOffset(0, 5).addBox(-1.7469F, -5.0705F, -1.5F, 2.0F, 2.0F, 3.0F, 0.0F, false);
 
         body = new ModelRenderer(this);
         body.setRotationPoint(0.0F, 24.0F, 0.0F);
@@ -116,10 +123,10 @@ public class JungleGeckoBossModel<T extends JungleGeckoBossEntity> extends Entit
         body.addChild(cube_r5);
         setRotationAngle(cube_r5, 0.0F, 1.5708F, 0.0F);
         cube_r5.setTextureOffset(28, 0).addBox(0.4856F, 2.7813F, -0.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
-        cube_r5.setTextureOffset(0, 0).addBox(-3.5144F, 1.7813F, -0.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
+        cube_r5.setTextureOffset(0, 0).addBox(-4.5144F, 1.7813F, -0.5F, 2.0F, 1.0F, 1.0F, 0.0F, false);
         cube_r5.setTextureOffset(0, 0).addBox(-3.5144F, -0.2187F, -0.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
-        cube_r5.setTextureOffset(28, 0).addBox(-2.5144F, -1.2187F, -1.5F, 3.0F, 5.0F, 3.0F, 0.0F, false);
-        cube_r5.setTextureOffset(28, 0).addBox(0.4856F, -3.2187F, -1.5F, 1.0F, 1.0F, 3.0F, 0.0F, false);
+        cube_r5.setTextureOffset(20, 0).addBox(-2.5144F, -1.2187F, -1.5F, 3.0F, 5.0F, 3.0F, 0.0F, false);
+        cube_r5.setTextureOffset(24, 0).addBox(0.4856F, -3.2187F, -1.5F, 1.0F, 1.0F, 3.0F, 0.0F, false);
         cube_r5.setTextureOffset(20, 0).addBox(0.4856F, -2.2187F, -2.5F, 1.0F, 5.0F, 5.0F, 0.0F, false);
         cube_r5.setTextureOffset(18, 0).addBox(-1.5144F, -3.2187F, -2.5F, 2.0F, 6.0F, 5.0F, 0.0F, false);
         cube_r5.setTextureOffset(0, 0).addBox(-2.5144F, -2.2187F, -0.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
@@ -137,43 +144,84 @@ public class JungleGeckoBossModel<T extends JungleGeckoBossEntity> extends Entit
         cube_r6.setTextureOffset(28, 0).addBox(4.0875F, -0.9159F, -3.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
         cube_r6.setTextureOffset(18, 0).addBox(-1.9125F, -1.9159F, -3.5F, 6.0F, 2.0F, 1.0F, 0.0F, false);
 
+        spike3 = new ModelRenderer(this);
+        spike3.setRotationPoint(0.0F, 0.0F, 0.0F);
+        rightarm.addChild(spike3);
+        setRotationAngle(spike3, 0.6545F, -0.3491F, 0.0F);
+
+
+        cube_r7 = new ModelRenderer(this);
+        cube_r7.setRotationPoint(2.5454F, 0.6582F, 5.3838F);
+        spike3.addChild(cube_r7);
+        setRotationAngle(cube_r7, 0.0F, 1.5708F, 0.0F);
+        cube_r7.setTextureOffset(0, 0).addBox(3.0875F, -0.9159F, -3.4938F, 3.0F, 1.0F, 1.0F, 0.0F, false);
+
         leftarm = new ModelRenderer(this);
         leftarm.setRotationPoint(3.3223F, 15.5F, 1.5F);
         setRotationAngle(leftarm, 0.2182F, 0.0F, 0.0F);
 
 
-        cube_r7 = new ModelRenderer(this);
-        cube_r7.setRotationPoint(-2.7769F, 1.4682F, -1.3181F);
-        leftarm.addChild(cube_r7);
-        setRotationAngle(cube_r7, 0.0F, 1.5708F, 0.0F);
-        cube_r7.setTextureOffset(12, 0).addBox(3.458F, -0.9017F, 2.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
-        cube_r7.setTextureOffset(4, 2).addBox(-1.542F, -1.9017F, 2.5F, 5.0F, 2.0F, 1.0F, 0.0F, false);
+        cube_r8 = new ModelRenderer(this);
+        cube_r8.setRotationPoint(-2.7769F, 1.4682F, -1.3181F);
+        leftarm.addChild(cube_r8);
+        setRotationAngle(cube_r8, 0.0F, 1.5708F, 0.0F);
+        cube_r8.setTextureOffset(16, 3).addBox(3.458F, -0.9017F, 2.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
+        cube_r8.setTextureOffset(10, 5).addBox(-1.542F, -1.9017F, 2.5F, 5.0F, 2.0F, 1.0F, 0.0F, false);
+
+        spike2 = new ModelRenderer(this);
+        spike2.setRotationPoint(0.0F, 0.0F, 0.0F);
+        leftarm.addChild(spike2);
+        setRotationAngle(spike2, 0.6545F, 0.3491F, 0.0F);
+
+
+        cube_r9 = new ModelRenderer(this);
+        cube_r9.setRotationPoint(-2.7769F, 0.4682F, 4.6819F);
+        spike2.addChild(cube_r9);
+        setRotationAngle(cube_r9, 0.0F, 1.5708F, 0.0F);
+        cube_r9.setTextureOffset(0, 0).addBox(2.458F, -0.9017F, 2.4881F, 3.0F, 1.0F, 1.0F, 0.0F, false);
 
         rightleg = new ModelRenderer(this);
         rightleg.setRotationPoint(-1.5F, 20.375F, 1.0F);
 
 
-        cube_r8 = new ModelRenderer(this);
-        cube_r8.setRotationPoint(2.0454F, -3.1563F, -0.469F);
-        rightleg.addChild(cube_r8);
-        setRotationAngle(cube_r8, 0.0F, 1.5708F, 0.0F);
-        cube_r8.setTextureOffset(0, 9).addBox(0.4856F, 4.7813F, -3.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
-        cube_r8.setTextureOffset(0, 9).addBox(-1.5144F, 3.7813F, -3.0F, 2.0F, 3.0F, 2.0F, 0.0F, false);
-        cube_r8.setTextureOffset(0, 16).addBox(0.4856F, 5.7813F, -3.0F, 3.0F, 1.0F, 2.0F, 0.0F, false);
-        cube_r8.setTextureOffset(0, 9).addBox(-1.5144F, 2.7813F, -3.0F, 2.0F, 2.0F, 2.0F, 0.0F, false);
+        cube_r10 = new ModelRenderer(this);
+        cube_r10.setRotationPoint(2.0454F, -3.1563F, -0.469F);
+        rightleg.addChild(cube_r10);
+        setRotationAngle(cube_r10, 0.0F, 1.5708F, 0.0F);
+        cube_r10.setTextureOffset(0, 9).addBox(0.4856F, 4.7813F, -3.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+        cube_r10.setTextureOffset(0, 9).addBox(-1.5144F, 3.7813F, -3.0F, 2.0F, 3.0F, 2.0F, 0.0F, false);
+        cube_r10.setTextureOffset(0, 16).addBox(0.4856F, 5.7813F, -3.0F, 3.0F, 1.0F, 2.0F, 0.0F, false);
+        cube_r10.setTextureOffset(0, 9).addBox(-1.5144F, 2.7813F, -3.0F, 2.0F, 2.0F, 2.0F, 0.0F, false);
+
+        spike = new ModelRenderer(this);
+        spike.setRotationPoint(0.0F, 0.0F, 0.0F);
+        rightleg.addChild(spike);
+        setRotationAngle(spike, -0.48F, 0.0F, -0.1309F);
+        spike.setTextureOffset(0, 0).addBox(-1.5F, -2.0F, 0.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
 
         leftleg = new ModelRenderer(this);
         leftleg.setRotationPoint(3.0F, 20.375F, 1.0F);
 
 
-        cube_r9 = new ModelRenderer(this);
-        cube_r9.setRotationPoint(-2.4546F, -3.1563F, -0.469F);
-        leftleg.addChild(cube_r9);
-        setRotationAngle(cube_r9, 0.0F, 1.5708F, 0.0F);
-        cube_r9.setTextureOffset(0, 9).addBox(0.4856F, 4.7813F, 1.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
-        cube_r9.setTextureOffset(0, 9).addBox(-1.5144F, 3.7813F, 1.0F, 2.0F, 3.0F, 2.0F, 0.0F, false);
-        cube_r9.setTextureOffset(0, 16).addBox(0.4856F, 5.7813F, 1.0F, 3.0F, 1.0F, 2.0F, 0.0F, false);
-        cube_r9.setTextureOffset(0, 9).addBox(-1.5144F, 2.7813F, 1.0F, 2.0F, 2.0F, 2.0F, 0.0F, false);
+        cube_r11 = new ModelRenderer(this);
+        cube_r11.setRotationPoint(-2.4546F, -3.1563F, -0.469F);
+        leftleg.addChild(cube_r11);
+        setRotationAngle(cube_r11, 0.0F, 1.5708F, 0.0F);
+        cube_r11.setTextureOffset(0, 9).addBox(0.4856F, 4.7813F, 1.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+        cube_r11.setTextureOffset(0, 9).addBox(-1.5144F, 3.7813F, 1.0F, 2.0F, 3.0F, 2.0F, 0.0F, false);
+        cube_r11.setTextureOffset(0, 16).addBox(0.4856F, 5.7813F, 1.0F, 3.0F, 1.0F, 2.0F, 0.0F, false);
+        cube_r11.setTextureOffset(0, 9).addBox(-1.5144F, 2.7813F, 1.0F, 2.0F, 2.0F, 2.0F, 0.0F, false);
+
+        spike4 = new ModelRenderer(this);
+        spike4.setRotationPoint(0.0F, 0.0F, 0.0F);
+        leftleg.addChild(spike4);
+
+
+        cube_r12 = new ModelRenderer(this);
+        cube_r12.setRotationPoint(0.0F, 0.0F, 0.0F);
+        spike4.addChild(cube_r12);
+        setRotationAngle(cube_r12, -0.48F, 0.0F, 0.1309F);
+        cube_r12.setTextureOffset(0, 0).addBox(0.0F, -2.0F, 0.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
 
         tail = new ModelRenderer(this);
         tail.setRotationPoint(1.0F, 21.0F, -3.0F);
@@ -185,7 +233,7 @@ public class JungleGeckoBossModel<T extends JungleGeckoBossEntity> extends Entit
         tail.addChild(spike_r3);
         setRotationAngle(spike_r3, -1.5708F, 0.8727F, -0.8727F);
         spike_r3.setTextureOffset(0, 0).addBox(-6.0586F, 0.2088F, -0.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
-        spike_r3.setTextureOffset(0, 3).addBox(-6.0586F, 1.2088F, -1.5F, 3.0F, 2.0F, 3.0F, 0.0F, false);
+        spike_r3.setTextureOffset(1, 7).addBox(-6.0586F, 1.2088F, -1.5F, 3.0F, 2.0F, 3.0F, 0.0F, false);
 
         tail2 = new ModelRenderer(this);
         tail2.setRotationPoint(-1.0F, 3.0F, 3.0F);
@@ -197,12 +245,11 @@ public class JungleGeckoBossModel<T extends JungleGeckoBossEntity> extends Entit
         spike_r4.setRotationPoint(-1.6169F, -6.7223F, 0.531F);
         tail2.addChild(spike_r4);
         setRotationAngle(spike_r4, 0.0F, 1.5708F, 0.0F);
-        spike_r4.setTextureOffset(0, 0).addBox(-6.3521F, 4.7223F, -0.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
+        spike_r4.setTextureOffset(0, 0).addBox(-6.3521F, 3.7223F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
         spike_r4.setTextureOffset(0, 4).addBox(-6.3521F, 5.7223F, -1.5F, 1.0F, 1.0F, 3.0F, 0.0F, false);
-        spike_r4.setTextureOffset(0, 3).addBox(-8.3521F, 5.7223F, -0.5F, 4.0F, 1.0F, 1.0F, 0.0F, false);
-        spike_r4.setTextureOffset(0, 2).addBox(-5.3521F, 4.7223F, -1.5F, 3.0F, 2.0F, 3.0F, 0.0F, false);
+        spike_r4.setTextureOffset(5, 7).addBox(-8.3521F, 5.7223F, -0.5F, 4.0F, 1.0F, 1.0F, 0.0F, false);
+        spike_r4.setTextureOffset(19, 12).addBox(-5.3521F, 4.7223F, -1.5F, 3.0F, 2.0F, 3.0F, 0.0F, false);
     }
-
 
     @Override
     public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
@@ -229,14 +276,10 @@ public class JungleGeckoBossModel<T extends JungleGeckoBossEntity> extends Entit
 
     }
 
-
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
-
-
-
 }
 

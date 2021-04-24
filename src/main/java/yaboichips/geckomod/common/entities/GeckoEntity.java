@@ -1,6 +1,5 @@
 package yaboichips.geckomod.common.entities;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -66,6 +65,8 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D);
     }
 
+
+
     // Initialise Gecko
 
     @Override
@@ -79,8 +80,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         this.dataManager.register(STANDING, Boolean.FALSE);
         this.dataManager.register(SITTING, Boolean.FALSE);
     }
-
-
 
     @Override
     protected void registerGoals() {
@@ -101,7 +100,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
 
     @Override
     public boolean isElytraFlying() {
-        return this.isGiant() && this.getEntityWorld().getBlockState(this.getPositionUnderneath()).getBlock() == Blocks.AIR || this.getEntityWorld().getBlockState(this.getPositionUnderneath()).getBlock() == Blocks.VOID_AIR || this.getEntityWorld().getBlockState(this.getPositionUnderneath()).getBlock() == Blocks.CAVE_AIR;
+        return this.isGiant();
     }
 
     @Override
@@ -112,8 +111,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
             return GECKO_SIZE;
         }
     }
-
-
     @Override
     public void livingTick() {
         if (this.world.isRemote) {
@@ -138,10 +135,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
 
     @Override
     public boolean onLivingFall(float distance, float damageMultiplier) {
-        if (this.isGiant()){
             return false;
-        } else
-        return super.onLivingFall(distance, damageMultiplier);
     }
 
     @Override

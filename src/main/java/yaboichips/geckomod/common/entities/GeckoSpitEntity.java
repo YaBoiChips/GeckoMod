@@ -15,6 +15,7 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -86,8 +87,8 @@ public class GeckoSpitEntity extends LlamaSpitEntity {
         Entity entity = this.func_234616_v_();
         if (entity instanceof LivingEntity) {
             p_213868_1_.getEntity().attackEntityFrom(DamageSource.causeIndirectDamage(this, (LivingEntity)entity).setProjectile(), 11.0F);
+            this.remove();
         }
-
     }
 
     protected void func_230299_a_(BlockRayTraceResult p_230299_1_) {
@@ -95,6 +96,13 @@ public class GeckoSpitEntity extends LlamaSpitEntity {
         if (!this.world.isRemote) {
             this.remove();
         }
+    }
+
+    @Override
+    protected void onImpact(RayTraceResult result) {
+        super.onImpact(result);
+        this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), 3, Explosion.Mode.NONE);
+        this.remove();
 
     }
 

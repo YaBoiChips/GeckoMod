@@ -62,6 +62,8 @@ public class GeckoMod {
         GlobalEntityTypeAttributes.put(GEntities.NETHERGECKO, NetherGeckoEntity.setCustomAttributes().create());
         GlobalEntityTypeAttributes.put(GEntities.GECKOBOSSJUNGLE, JungleGeckoBossEntity.setCustomAttributes().create());
         GlobalEntityTypeAttributes.put(GEntities.GECKOBOSSICE, IceGeckoBossEntity.setCustomAttributes().create());
+        GlobalEntityTypeAttributes.put(GEntities.GECKOBOSSFIRE, FireGeckoBossEntity.setCustomAttributes().create());
+        GlobalEntityTypeAttributes.put(GEntities.GECKOBOSSFLOWER, FlowerGeckoBossEntity.setCustomAttributes().create());
         GlobalEntityTypeAttributes.put(GEntities.ENDGECKO, EndGeckoEntity.setCustomAttributes().create());
         event.enqueueWork(() -> {
             GStructures.setupStructures();
@@ -75,8 +77,15 @@ public class GeckoMod {
         Biome.Category category = event.getCategory();
         if (biome == null) return;
         BiomeGenerationSettingsBuilder generation = event.getGeneration();
-        if (category == Biome.Category.JUNGLE)
-        generation.getStructures().add(() -> GConfiguredStructures.CONFIGURED_JUNGLE_BOSS_AREA);
+        if (category == Biome.Category.JUNGLE) {
+            generation.getStructures().add(() -> GConfiguredStructures.CONFIGURED_JUNGLE_BOSS_AREA);
+        }
+        if (category == Biome.Category.ICY) {
+            generation.getStructures().add(() -> GConfiguredStructures.CONFIGURED_ICE_BOSS_AREA);
+        }
+        if (category == Biome.Category.DESERT) {
+            generation.getStructures().add(() -> GConfiguredStructures.CONFIGURED_FIRE_BOSS_AREA);
+        }
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -85,6 +94,8 @@ public class GeckoMod {
         RenderingRegistry.registerEntityRenderingHandler(GEntities.NETHERGECKO, NetherGeckoRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(GEntities.GECKOBOSSJUNGLE, JungleGeckoBossRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(GEntities.GECKOBOSSICE, IceGeckoBossRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(GEntities.GECKOBOSSFIRE, FireGeckoBossRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(GEntities.GECKOBOSSFLOWER, FlowerGeckoBossRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(GEntities.GECKOSPIT, GeckoSpitRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(GEntities.ENDGECKO, EndGeckoRenderer::new);
         ScreenManager.registerFactory(GContainers.TERRARIUM_CONTAINER.get(), TerrariumScreen::new);
