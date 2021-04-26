@@ -1,0 +1,36 @@
+{
+  "gecko.ambient": {
+    "catagory": "gecko",
+    "subtitle": "gecko.ambient",
+    "sounds": [
+      {
+        "name": "geckomod:gecko/gecko.ambient1",
+        "stream": false
+      },
+      {
+        "name": "geckomod:gecko/gecko.ambient2",
+        "stream": false
+      }
+    ]
+  },
+  "gecko.death": {
+    "catagory": "gecko",
+    "subtitle": "gecko.death",
+    "sounds": [
+      {
+        "name": "geckomod:gecko/gecko.death",
+        "stream": false
+      }
+    ]
+  },
+  "gecko.hurt": {
+    "catagory": "gecko",
+    "subtitle": "gecko.hurt",
+    "sounds": [
+      {
+        "name": "geckomod:gecko/gecko.hurt",
+        "stream": false
+      }
+    ]
+  }
+}

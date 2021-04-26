@@ -14,8 +14,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -82,14 +80,12 @@ public class TerrariumTileEntity extends LockableLootTileEntity implements ITick
         return compound;
     }
 
-
-
-    private void playSound(SoundEvent sound) {
-        double dx = (double) this.pos.getX() + 0.5D;
-        double dy = (double) this.pos.getY() + 0.5D;
-        double dz = (double) this.pos.getZ() + 0.5D;
-        this.world.playSound(null, dx, dy, dz, sound, SoundCategory.BLOCKS, 0.5f,
-                this.world.rand.nextFloat() * 0.1f + 0.9f);
+    @Override
+    public void read(BlockState state, CompoundNBT nbt) {
+        super.read(state, nbt);
+        if (!this.checkLootAndRead(nbt)){
+            ItemStackHelper.loadAllItems(nbt, this.chestContents);
+        }
     }
 
     @Override
@@ -181,5 +177,4 @@ public class TerrariumTileEntity extends LockableLootTileEntity implements ITick
             this.hasGecko = true;
         }
     }
-
 }

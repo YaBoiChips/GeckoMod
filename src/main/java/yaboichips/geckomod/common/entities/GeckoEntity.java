@@ -30,6 +30,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import yaboichips.geckomod.core.GBlocks;
 import yaboichips.geckomod.core.GEntities;
 import yaboichips.geckomod.core.GItems;
+import yaboichips.geckomod.core.GSounds;
 import yaboichips.geckomod.util.GKeyBinds;
 import yaboichips.geckomod.util.Maths;
 
@@ -104,7 +105,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
 
     @Override
     public boolean isElytraFlying() {
-        return this.isGiant();
+        return this.isGiant() && !this.isOnGround();
     }
 
     public boolean hasEgg() {
@@ -348,6 +349,24 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT tag) {
         setSkinColor(getRandomGeckoColor(rand));
         return super.onInitialSpawn(world, difficultyIn, reason, spawnData == null ? new AgeableEntity.AgeableData(1.0F) : spawnData, tag);
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return GSounds.GECKO_HURT;
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return GSounds.GECKO_AMBIENT;
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return GSounds.GECKO_DEATH;
     }
 
     @Override

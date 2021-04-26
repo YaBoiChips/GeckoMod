@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "geckomod:item/gecko_egg"
+    "layer0": "geckomod:item/end_gecko_egg"
   }
 }
