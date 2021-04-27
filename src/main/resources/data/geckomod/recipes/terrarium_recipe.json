@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "#L#",
+        "CCC"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:glass"
+        },
+        "L": {
+            "item": "geckomod:gecko_food"
+        },
+        "C": {
+            "item": "minecraft:coarse_dirt"
+        }
+    },
+    "result": {
+        "item": "geckomod:terrarium_block",
+        "count": 1
+    }
+}

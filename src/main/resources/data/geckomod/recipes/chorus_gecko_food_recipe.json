@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#R",
+        "B "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:chorus_fruit"
+        },
+        "R": {
+            "item": "minecraft:rotten_flesh"
+        },
+        "B": {
+            "item": "minecraft:bowl"
+        }
+    },
+    "result": {
+        "item": "geckomod:chorus_gecko_food",
+        "count": 1
+    }
+}

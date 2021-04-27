@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "g g",
+        "ggg",
+        "g g"
+    ],
+    "key": {
+        "g": {
+            "item": "minecraft:diamond"
+        }
+    },
+    "result": {
+        "item": "geckomod:diamond_gecko_armor",
+        "count": 1
+    }
+}

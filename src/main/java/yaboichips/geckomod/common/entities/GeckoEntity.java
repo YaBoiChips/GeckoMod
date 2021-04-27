@@ -118,11 +118,11 @@ public class GeckoEntity extends TameableEntity implements IRideable{
 
     @Override
     public EntitySize getSize(Pose poseIn) {
-        if (this.isGiant() && this.isLiving()){
-            return GIANT_SIZE;
-        } else {
-            return GECKO_SIZE;
-        }
+            if (this.isGiant() && this.isLiving()) {
+                return GIANT_SIZE;
+            } else {
+                return GECKO_SIZE;
+            }
     }
     @Override
     public void livingTick() {
@@ -133,17 +133,16 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                     this.setVelocity(vec.x, 0.5, vec.z);
                 }
             }
-        }
-        super.livingTick();
-        if (this.isGiant()){
-            this.recalculateSize();
-        }
-        if (!this.isGiant()){
-            this.recalculateSize();
-        }
-        if (this.isPotionActive(Effects.POISON)){
-            this.removePotionEffect(Effects.POISON);
-        }
+            if (this.isGiant()) {
+                this.recalculateSize();
+            }
+            if (!this.isGiant()) {
+                this.recalculateSize();
+            }
+            if (this.isPotionActive(Effects.POISON)) {
+                this.removePotionEffect(Effects.POISON);
+            }
+        } super.livingTick();
     }
 
     @Override

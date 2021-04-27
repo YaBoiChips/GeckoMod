@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "geckomod:giant_gecko_eye"
+        },
+        {
+            "item": "geckomod:giant_gecko_heart"
+        },
+        {
+            "item": "geckomod:giant_gecko_tooth"
+        },
+        {
+            "item": "geckomod:giant_gecko_scale"
+        },
+        {
+            "item": "minecraft:glass_bottle"
+        }
+    ],
+    "result": {
+        "item": "geckomod:giant_gecko_serum",
+        "count": 1
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#B",
+        "Y "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:apple"
+        },
+        "B": {
+            "item": "minecraft:blaze_powder"
+        },
+        "Y": {
+            "item": "minecraft:bowl"
+        }
+    },
+    "result": {
+        "item": "geckomod:spicy_gecko_food",
+        "count": 1
+    }
+}
