@@ -24,6 +24,7 @@ public class GeckoRenderer<T extends GeckoEntity> extends AbstractRenderer<T, Ge
 
     public GeckoRenderer(EntityRendererManager manager) {
         super(manager, new GeckoModel<>(), 1.0F);
+        this.addLayer(new GeckoArmorLayer<>(this));
     }
 
     @Override
