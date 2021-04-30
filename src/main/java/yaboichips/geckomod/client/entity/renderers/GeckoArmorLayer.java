@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.ResourceLocation;
 import yaboichips.geckomod.GeckoMod;
@@ -19,19 +20,30 @@ public class GeckoArmorLayer<T extends GeckoEntity> extends LayerRenderer<T, Gec
         super(model);
     }
 
-
     @Override
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, GeckoEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (entitylivingbaseIn.getArmor() == 1){
+        if (entitylivingbaseIn.getArmor() == 1) {
+            this.getEntityModel().copyModelAttributesTo((EntityModel<T>) this.geckoModel);
+            this.geckoModel.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks);
+            this.geckoModel.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(new ResourceLocation(GeckoMod.MOD_ID, "textures/entity/gecko/armor/gecko_armor_iron.png")));
             this.geckoModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 0, 0, 0, 1.0F);
         } else if (entitylivingbaseIn.getArmor() == 2) {
+            this.getEntityModel().copyModelAttributesTo((EntityModel<T>) this.geckoModel);
+            this.geckoModel.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks);
+            this.geckoModel.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(new ResourceLocation(GeckoMod.MOD_ID, "textures/entity/gecko/armor/gecko_armor_gold.png")));
             this.geckoModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 0, 0, 0, 1.0F);
         } else if (entitylivingbaseIn.getArmor() == 3) {
+            this.getEntityModel().copyModelAttributesTo((EntityModel<T>) this.geckoModel);
+            this.geckoModel.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks);
+            this.geckoModel.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(new ResourceLocation(GeckoMod.MOD_ID, "textures/entity/gecko/armor/gecko_armor_diamond.png")));
             this.geckoModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 0, 0, 0, 1.0F);
-        }else if (entitylivingbaseIn.getArmor() == 4) {
+        } else if (entitylivingbaseIn.getArmor() == 4) {
+            this.getEntityModel().copyModelAttributesTo((EntityModel<T>) this.geckoModel);
+            this.geckoModel.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks);
+            this.geckoModel.setRotationAngles(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(new ResourceLocation(GeckoMod.MOD_ID, "textures/entity/gecko/armor/gecko_armor_netherite.png")));
             this.geckoModel.render(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, 0, 0, 0, 1.0F);
         }

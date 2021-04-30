@@ -83,7 +83,7 @@ public class TerrariumTileEntity extends LockableLootTileEntity implements ITick
     @Override
     public void read(BlockState state, CompoundNBT nbt) {
         super.read(state, nbt);
-        if (!this.checkLootAndRead(nbt)){
+        if (!this.checkLootAndRead(nbt)) {
             ItemStackHelper.loadAllItems(nbt, this.chestContents);
         }
     }
@@ -173,7 +173,7 @@ public class TerrariumTileEntity extends LockableLootTileEntity implements ITick
 
     @Override
     public void tick() {
-        if (this.getStackInSlot(0) == GItems.GECKO_POUCH.getDefaultInstance()){
+        if (this.getStackInSlot(0) == GItems.GECKO_POUCH.getDefaultInstance()) {
             this.hasGecko = true;
         }
     }

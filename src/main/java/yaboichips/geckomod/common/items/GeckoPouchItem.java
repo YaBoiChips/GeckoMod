@@ -25,6 +25,7 @@ public class GeckoPouchItem extends BasicItem {
     public GeckoPouchItem(Properties properties) {
         super(properties);
     }
+
     @Override
     public ActionResultType onItemUse(ItemUseContext context) {
         PlayerEntity player = context.getPlayer();
@@ -33,14 +34,14 @@ public class GeckoPouchItem extends BasicItem {
         World worldIn = context.getWorld();
         ItemStack stack = context.getItem();
         if (player.getEntityWorld().isRemote) return ActionResultType.FAIL;
-            if (!containsEntity(stack)) return ActionResultType.FAIL;
-            if (worldIn.getBlockState(pos) != GBlocks.TERRARIUM_BLOCK.getDefaultState()) {
-                Entity entity = getEntityFromStack(stack, worldIn, true);
-                BlockPos blockPos = pos.offset(facing);
-                entity.setPositionAndRotation(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
-                stack.setTag(new CompoundNBT());
-                worldIn.addEntity(entity);
-            }
+        if (!containsEntity(stack)) return ActionResultType.FAIL;
+        if (worldIn.getBlockState(pos) != GBlocks.TERRARIUM_BLOCK.getDefaultState()) {
+            Entity entity = getEntityFromStack(stack, worldIn, true);
+            BlockPos blockPos = pos.offset(facing);
+            entity.setPositionAndRotation(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
+            stack.setTag(new CompoundNBT());
+            worldIn.addEntity(entity);
+        }
         return ActionResultType.SUCCESS;
     }
 
@@ -52,24 +53,22 @@ public class GeckoPouchItem extends BasicItem {
     @Override
     public ActionResultType itemInteractionForEntity(ItemStack stack, PlayerEntity playerIn, LivingEntity target, Hand hand) {
         if (target.getEntityWorld().isRemote) return ActionResultType.FAIL;
-            if (!(target instanceof GeckoEntity) || !target.isNonBoss() || !target.isAlive()) return ActionResultType.FAIL;
-                if (containsEntity(stack)) return ActionResultType.FAIL;
-                CompoundNBT nbt = new CompoundNBT();
-                nbt.putString("entity", EntityType.getKey(target.getType()).toString());
-                target.writeWithoutTypeId(nbt);
-                stack.setTag(nbt);
-                playerIn.swingArm(hand);
-                playerIn.setHeldItem(hand, stack);
-                target.remove(true);
+        if (!(target instanceof GeckoEntity) || !target.isNonBoss() || !target.isAlive()) return ActionResultType.FAIL;
+        if (containsEntity(stack)) return ActionResultType.FAIL;
+        CompoundNBT nbt = new CompoundNBT();
+        nbt.putString("entity", EntityType.getKey(target.getType()).toString());
+        target.writeWithoutTypeId(nbt);
+        stack.setTag(nbt);
+        playerIn.swingArm(hand);
+        playerIn.setHeldItem(hand, stack);
+        target.remove(true);
         return ActionResultType.SUCCESS;
     }
-
 
 
     public static boolean containsEntity(ItemStack stack) {
         return !stack.isEmpty() && stack.hasTag() && stack.getTag().contains("entity");
     }
-
 
 
     @Override
@@ -87,13 +86,12 @@ public class GeckoPouchItem extends BasicItem {
     }
 
 
-
     @Nullable
     public Entity getEntityFromStack(ItemStack stack, World world, boolean withInfo) {
         EntityType type = EntityType.byKey(stack.getTag().getString("entity")).orElse(null);
         if (type != null) {
             Entity entity = type.create(world);
-                if (withInfo) entity.read(stack.getTag());
+            if (withInfo) entity.read(stack.getTag());
             return entity;
         }
         return null;

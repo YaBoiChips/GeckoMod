@@ -23,7 +23,7 @@ public class TerrariumContainer extends Container {
     private final IWorldPosCallable canInteractWithCallable;
 
 
-    public TerrariumContainer( final int windowId, final PlayerInventory playerInv, final TerrariumTileEntity tileEntityIn){
+    public TerrariumContainer(final int windowId, final PlayerInventory playerInv, final TerrariumTileEntity tileEntityIn) {
         super(GContainers.TERRARIUM_CONTAINER.get(), windowId);
         this.tileEntity = tileEntityIn;
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntityIn.getWorld(), tileEntityIn.getPos());
@@ -47,11 +47,11 @@ public class TerrariumContainer extends Container {
         }
     }
 
-    public TerrariumContainer( final int windowId, final PlayerInventory playerInv, final PacketBuffer data){
+    public TerrariumContainer(final int windowId, final PlayerInventory playerInv, final PacketBuffer data) {
         this(windowId, playerInv, getTileEntity(playerInv, data));
     }
 
-    private static TerrariumTileEntity getTileEntity ( final PlayerInventory playerInv, final PacketBuffer data){
+    private static TerrariumTileEntity getTileEntity(final PlayerInventory playerInv, final PacketBuffer data) {
         Objects.requireNonNull(playerInv, "playerInv cannot be null");
         Objects.requireNonNull(data, "data cannot be null");
         final TileEntity tileAtPos = playerInv.player.world.getTileEntity(data.readBlockPos());
@@ -62,13 +62,13 @@ public class TerrariumContainer extends Container {
     }
 
     @Override
-    public boolean canInteractWith (PlayerEntity playerIn){
+    public boolean canInteractWith(PlayerEntity playerIn) {
         return isWithinUsableDistance(canInteractWithCallable, playerIn, GBlocks.TERRARIUM_BLOCK);
     }
 
 
     @Override
-    public ItemStack transferStackInSlot (PlayerEntity playerIn, int index){
+    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {

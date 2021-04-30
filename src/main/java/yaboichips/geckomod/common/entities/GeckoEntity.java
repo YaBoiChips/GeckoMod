@@ -40,7 +40,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 import java.util.UUID;
 
-public class GeckoEntity extends TameableEntity implements IRideable{
+public class GeckoEntity extends TameableEntity implements IRideable {
     private static final DataParameter<Integer> FLAGS = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> ARMOR_TYPE = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> STANDING = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.BOOLEAN);
@@ -49,8 +49,8 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     private static final DataParameter<Integer> COMMAND = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> SETGIANT = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> HAS_EGG = EntityDataManager.createKey(GeckoEntity.class, DataSerializers.BOOLEAN);
-    public static final EntitySize GECKO_SIZE = EntitySize.flexible(0.4f,0.4f);
-    public static final EntitySize GIANT_SIZE = EntitySize.flexible(1.9f,1.2f);
+    public static final EntitySize GECKO_SIZE = EntitySize.flexible(0.4f, 0.4f);
+    public static final EntitySize GIANT_SIZE = EntitySize.flexible(1.9f, 1.2f);
     private final BoostHelper boostHelper = new BoostHelper(this.dataManager, COMMAND, GIANT);
     public boolean forcedSit = false;
     public boolean forcedGiant = false;
@@ -68,8 +68,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                 .createMutableAttribute(Attributes.FOLLOW_RANGE, 12.0D)
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D);
     }
-
-
 
     // Initialise Gecko
 
@@ -118,12 +116,13 @@ public class GeckoEntity extends TameableEntity implements IRideable{
 
     @Override
     public EntitySize getSize(Pose poseIn) {
-            if (this.isGiant() && this.isLiving()) {
-                return GIANT_SIZE;
-            } else {
-                return GECKO_SIZE;
-            }
+        if (this.isGiant() && this.isLiving()) {
+            return GIANT_SIZE;
+        } else {
+            return GECKO_SIZE;
+        }
     }
+
     @Override
     public void livingTick() {
         if (this.world.isRemote) {
@@ -142,20 +141,19 @@ public class GeckoEntity extends TameableEntity implements IRideable{
             if (this.isPotionActive(Effects.POISON)) {
                 this.removePotionEffect(Effects.POISON);
             }
-        } super.livingTick();
+        }
+        super.livingTick();
     }
 
     @Override
     public boolean onLivingFall(float distance, float damageMultiplier) {
-            return false;
+        return false;
     }
 
     @Override
     public boolean canBeLeashedTo(PlayerEntity player) {
         return super.canBeLeashedTo(player);
     }
-
-
 
     @Override
     public void setTamed(boolean tamed) {
@@ -166,16 +164,12 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         } else {
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(6.0D);
         }
-
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(4.0D);
     }
 
-
-    public Item getTameItem(){
+    public Item getTameItem() {
         return GItems.GECKO_FOOD;
     }
-
-
 
     @Override
     public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
@@ -202,7 +196,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                 if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
                     this.setTamedBy(player);
                     this.navigator.clearPath();
-                    this.setAttackTarget((LivingEntity) null);
+                    this.setAttackTarget(null);
                     this.func_233687_w_(true);
                     this.world.setEntityState(this, (byte) 7);
                 } else {
@@ -228,14 +222,14 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                         return ActionResultType.SUCCESS;
                     }
                 }
-            } if (type != ActionResultType.SUCCESS && isTamed() && isOwner(player) && item == GItems.GIANT_GECKO_SERUM) {
+            }
+            if (type != ActionResultType.SUCCESS && isTamed() && isOwner(player) && item == GItems.GIANT_GECKO_SERUM) {
                 if (player.isSneaking()) {
                     this.setSetGiant(this.getSetGiant() + 1);
                     player.sendStatusMessage(new TranslationTextComponent("Made Giant"), true);
                     if (this.getSetGiant() == 2)
                         this.setSetGiant(0);
                 }
-
                 boolean giant = this.getSetGiant() == 1;
                 if (giant) {
                     this.forcedGiant = true;
@@ -247,7 +241,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                     return ActionResultType.SUCCESS;
                 }
             }
-
             if (type != ActionResultType.SUCCESS && item == GItems.IRON_GECKO_ARMOR && this.isTamed() && this.getArmor() < 1) {
                 player.sendStatusMessage(new TranslationTextComponent("Armor Applied"), true);
                 this.setArmor(1);
@@ -304,13 +297,13 @@ public class GeckoEntity extends TameableEntity implements IRideable{
                     this.setHealth(16.0F);
                 }
             }
-            if (type != ActionResultType.SUCCESS && item == GItems.GECKO_STAFF && this.isTamed() && !this.isBeingRidden() && this.isGiant()){
+            if (type != ActionResultType.SUCCESS && item == GItems.GECKO_STAFF && this.isTamed() && !this.isBeingRidden() && this.isGiant()) {
                 if (!this.world.isRemote) {
                     player.startRiding(this, true);
                 }
             }
         }
-            return type;
+        return type;
     }
 
     @Override
@@ -322,11 +315,9 @@ public class GeckoEntity extends TameableEntity implements IRideable{
             int[][] aint = TransportationHelper.func_234632_a_(direction);
             BlockPos blockpos = this.getPosition();
             BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-
-            for(Pose pose : livingEntity.getAvailablePoses()) {
+            for (Pose pose : livingEntity.getAvailablePoses()) {
                 AxisAlignedBB axisalignedbb = livingEntity.getPoseAABB(pose);
-
-                for(int[] aint1 : aint) {
+                for (int[] aint1 : aint) {
                     blockpos$mutable.setPos(blockpos.getX() + aint1[0], blockpos.getY(), blockpos.getZ() + aint1[1]);
                     double d0 = this.world.func_242403_h(blockpos$mutable);
                     if (TransportationHelper.func_234630_a_(d0)) {
@@ -348,6 +339,11 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT tag) {
         setSkinColor(getRandomGeckoColor(rand));
         return super.onInitialSpawn(world, difficultyIn, reason, spawnData == null ? new AgeableEntity.AgeableData(1.0F) : spawnData, tag);
+    }
+
+    @Override
+    protected float getSoundVolume() {
+        return 0.1f;
     }
 
     @Nullable
@@ -384,7 +380,8 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     }
 
     public int getArmor() {
-       return this.dataManager.get(ARMOR_TYPE);}
+        return this.dataManager.get(ARMOR_TYPE);
+    }
 
     public void setArmor(int armor) {
         this.dataManager.set(ARMOR_TYPE, armor);
@@ -433,7 +430,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
             return SkinColors.BLACK;
         } else if (i <= 7) {
             return SkinColors.ORANGE;
-        } else if (i <= 9){
+        } else if (i <= 9) {
             return SkinColors.BLUE;
         } else if (i <= 10) {
             return SkinColors.RED;
@@ -448,7 +445,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
     public void tick() {
         super.tick();
         setClimbing(!world.isRemote && collidedHorizontally);
-
     }
 
     @Override
@@ -470,7 +466,8 @@ public class GeckoEntity extends TameableEntity implements IRideable{
 
     @ParametersAreNonnullByDefault
     @Override
-    public @Nullable GeckoEntity func_241840_a(ServerWorld world, AgeableEntity mate) {
+    public @Nullable
+    GeckoEntity func_241840_a(ServerWorld world, AgeableEntity mate) {
         @Nullable GeckoEntity gecko = GEntities.GECKO.create(world);
         UUID uuid = this.getOwnerId();
         if (uuid != null) {
@@ -478,13 +475,12 @@ public class GeckoEntity extends TameableEntity implements IRideable{
             gecko.setTamed(true);
         }
         if (gecko != null) gecko.setSkinColor(getRandomGeckoColor(gecko.rand));
-
         return gecko;
     }
 
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entityIn) {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)((int)getAttributeValue(Attributes.ATTACK_DAMAGE)));
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) getAttributeValue(Attributes.ATTACK_DAMAGE)));
 
         if (flag) applyEnchantments(this, entityIn);
 
@@ -510,7 +506,6 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         compound.putInt("GeckoCommand", this.getCommand());
         compound.putInt("SetGiant", this.getSetGiant());
         compound.putBoolean("ForcedGiant", this.forcedGiant);
-
     }
 
     @Override
@@ -566,7 +561,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
         if (!(entity instanceof PlayerEntity)) {
             return false;
         } else {
-            PlayerEntity playerentity = (PlayerEntity)entity;
+            PlayerEntity playerentity = (PlayerEntity) entity;
             return playerentity.getHeldItemMainhand().getItem() == GItems.GECKO_STAFF || playerentity.getHeldItemOffhand().getItem() == GItems.GECKO_STAFF;
         }
     }
@@ -587,12 +582,10 @@ public class GeckoEntity extends TameableEntity implements IRideable{
 
     @Override
     public float getMountedSpeed() {
-        return (float)this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.525F;
+        return (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.525F;
     }
 
-
     // End write to nbt
-
 
     public enum SkinColors {
         WHITE(),
@@ -620,6 +613,7 @@ public class GeckoEntity extends TameableEntity implements IRideable{
             super(gecko, speedIn);
             this.gecko = gecko;
         }
+
         public boolean shouldExecute() {
             return super.shouldExecute() && !this.gecko.hasEgg();
         }
@@ -629,12 +623,10 @@ public class GeckoEntity extends TameableEntity implements IRideable{
             if (serverplayerentity == null && this.targetMate.getLoveCause() != null) {
                 serverplayerentity = this.targetMate.getLoveCause();
             }
-
             if (serverplayerentity != null) {
                 serverplayerentity.addStat(Stats.ANIMALS_BRED);
-                CriteriaTriggers.BRED_ANIMALS.trigger(serverplayerentity, this.animal, this.targetMate, (AgeableEntity)null);
+                CriteriaTriggers.BRED_ANIMALS.trigger(serverplayerentity, this.animal, this.targetMate, null);
             }
-
             this.gecko.setHasEgg(true);
             this.animal.resetInLove();
             this.targetMate.resetInLove();
@@ -652,9 +644,11 @@ public class GeckoEntity extends TameableEntity implements IRideable{
             super(gecko, speedIn, 16);
             this.gecko = gecko;
         }
+
         public boolean shouldExecute() {
             return this.gecko.hasEgg();
         }
+
         public boolean shouldContinueExecuting() {
             return super.shouldContinueExecuting() && this.gecko.hasEgg();
         }

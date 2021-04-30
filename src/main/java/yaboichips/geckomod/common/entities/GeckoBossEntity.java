@@ -32,7 +32,7 @@ import java.util.function.Predicate;
 public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
     protected int ticksNearBoss;
     private static final DataParameter<Integer> TARGET = EntityDataManager.createKey(GeckoBossEntity.class, DataSerializers.VARINT);
-    private final ServerBossInfo bossInfo = (ServerBossInfo)(new ServerBossInfo(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
+    private final ServerBossInfo bossInfo = (ServerBossInfo) (new ServerBossInfo(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
     private static final Predicate<LivingEntity> NOT_UNDEAD = (mob) -> {
         return mob.getCreatureAttribute() != CreatureAttribute.UNDEAD && mob.attackable();
     };
@@ -49,7 +49,8 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
         this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, true));    }
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, true));
+    }
 
     public static @Nonnull
     AttributeModifierMap.MutableAttribute setCustomAttributes() {
@@ -66,7 +67,7 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
         this.dataManager.register(TARGET, 0);
     }
 
-    public int getTicksNearBoss(){
+    public int getTicksNearBoss() {
         return this.ticksNearBoss;
     }
 
@@ -77,17 +78,17 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
         List<PlayerEntity> list = this.world.getEntitiesWithinAABB(PlayerEntity.class, axisalignedbb);
         for (PlayerEntity playerentity : list) {
             ++this.ticksNearBoss;
-            if (getTicksNearBoss() >= 80){
+            if (getTicksNearBoss() >= 80) {
                 float f7 = playerentity.rotationYaw;
                 float f = playerentity.rotationPitch;
-                float f1 = -MathHelper.sin(f7 * ((float)Math.PI / 180F)) * MathHelper.cos(f * ((float)Math.PI / 180F));
-                float f2 = -MathHelper.sin(f * ((float)Math.PI / 180F));
-                float f3 = MathHelper.cos(f7 * ((float)Math.PI / 180F)) * MathHelper.cos(f * ((float)Math.PI / 180F));
+                float f1 = -MathHelper.sin(f7 * ((float) Math.PI / 180F)) * MathHelper.cos(f * ((float) Math.PI / 180F));
+                float f2 = -MathHelper.sin(f * ((float) Math.PI / 180F));
+                float f3 = MathHelper.cos(f7 * ((float) Math.PI / 180F)) * MathHelper.cos(f * ((float) Math.PI / 180F));
                 float f4 = MathHelper.sqrt(f1 * f1 + f2 * f2 + f3 * f3);
                 float f5 = 4.2F;
                 f1 = f1 * (f5 / f4);
                 f3 = f3 * (f5 / f4);
-                playerentity.addVelocity(-f1 ,2, -f3);
+                playerentity.addVelocity(-f1, 2, -f3);
                 this.ticksNearBoss = 0;
             }
         }
@@ -107,9 +108,9 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
         double d1 = target.getPosYHeight(0.3333333333333333D) - geckoSpitEntity.getPosY();
         double d2 = target.getPosZ() - this.getPosZ();
         float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
-        geckoSpitEntity.shoot(d0, d1 + (double)f, d2, 1.5F, 10.0F);
+        geckoSpitEntity.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
         if (!this.isSilent()) {
-            this.world.playSound((PlayerEntity)null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+            this.world.playSound(null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
 
         this.world.addEntity(geckoSpitEntity);
@@ -122,15 +123,13 @@ public class GeckoBossEntity extends MonsterEntity implements IRangedAttackMob {
     }
 
 
-
-
     @Override
     public void addTrackingPlayer(ServerPlayerEntity player) {
         super.addTrackingPlayer(player);
         this.bossInfo.addPlayer(player);
     }
 
-   @Override
+    @Override
     public void removeTrackingPlayer(ServerPlayerEntity player) {
         super.removeTrackingPlayer(player);
         this.bossInfo.removePlayer(player);

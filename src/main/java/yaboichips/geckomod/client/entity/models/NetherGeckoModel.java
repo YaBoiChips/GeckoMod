@@ -5,10 +5,8 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.AgeableModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import yaboichips.geckomod.common.entities.GeckoEntity;
 import yaboichips.geckomod.common.entities.NetherGeckoEntity;
 
 import java.util.function.Function;
@@ -135,7 +133,7 @@ public class NetherGeckoModel<T extends NetherGeckoEntity> extends AgeableModel<
     }
 
     @Override
-    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         Head.render(matrixStack, buffer, packedLight, packedOverlay);
         Tail.render(matrixStack, buffer, packedLight, packedOverlay);
         legsBackRight.render(matrixStack, buffer, packedLight, packedOverlay);

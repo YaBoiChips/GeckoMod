@@ -29,7 +29,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 import java.util.UUID;
 
-public class EndGeckoEntity extends GeckoEntity{
+public class EndGeckoEntity extends GeckoEntity {
     private static final DataParameter<Integer> FLAGS = EntityDataManager.createKey(EndGeckoEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> ARMOR_TYPE = EntityDataManager.createKey(EndGeckoEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> STANDING = EntityDataManager.createKey(EndGeckoEntity.class, DataSerializers.BOOLEAN);
@@ -41,6 +41,7 @@ public class EndGeckoEntity extends GeckoEntity{
         super(type, worldIn);
         this.setTamed(false);
     }
+
     public static @Nonnull
     AttributeModifierMap.MutableAttribute setCustomAttributes() {
         return MobEntity.func_233666_p_()
@@ -84,7 +85,7 @@ public class EndGeckoEntity extends GeckoEntity{
 
     @Override
     protected void updateAITasks() {
-        if (this.isInWaterOrBubbleColumn() && this.getArmor() <=0) {
+        if (this.isInWaterOrBubbleColumn() && this.getArmor() <= 0) {
             ++this.underWaterTicks;
         } else {
             this.underWaterTicks = 0;
@@ -92,7 +93,7 @@ public class EndGeckoEntity extends GeckoEntity{
         if (this.underWaterTicks > 5) {
             this.attackEntityFrom(DamageSource.DROWN, 1.0F);
         }
-        if (this.world.isRaining() && this.getArmor() <=0){
+        if (this.world.isRaining() && this.getArmor() <= 0) {
             this.attackEntityFrom(DamageSource.DROWN, 1.0F);
         }
     }
@@ -120,8 +121,6 @@ public class EndGeckoEntity extends GeckoEntity{
     }
 
 
-
-
     public static EndGeckoEntity.SkinColors getRandomEndGeckoColor(@Nonnull Random random) {
         int i = random.nextInt(2);
 
@@ -144,7 +143,8 @@ public class EndGeckoEntity extends GeckoEntity{
 
     @ParametersAreNonnullByDefault
     @Override
-    public @Nullable EndGeckoEntity func_241840_a(ServerWorld world, AgeableEntity mate) {
+    public @Nullable
+    EndGeckoEntity func_241840_a(ServerWorld world, AgeableEntity mate) {
         @Nullable EndGeckoEntity gecko = GEntities.ENDGECKO.create(world);
         UUID uuid = this.getOwnerId();
         if (uuid != null) {
@@ -158,7 +158,7 @@ public class EndGeckoEntity extends GeckoEntity{
 
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entityIn) {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)((int)getAttributeValue(Attributes.ATTACK_DAMAGE)));
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) getAttributeValue(Attributes.ATTACK_DAMAGE)));
         if (flag) applyEnchantments(this, entityIn);
         if (flag && this.getHeldItemMainhand().isEmpty() && entityIn instanceof LivingEntity && entityIn != this.getOwner()) {
             float f = this.world.getDifficultyForLocation(this.getPosition()).getAdditionalDifficulty();
@@ -182,6 +182,7 @@ public class EndGeckoEntity extends GeckoEntity{
                         (climbing ? 1 : 0) << 8
         );
     }
+
     public void setRawFlag(int flag) {
         dataManager.set(FLAGS, flag);
     }
@@ -212,6 +213,7 @@ public class EndGeckoEntity extends GeckoEntity{
             super(gecko, speedIn);
             this.gecko = gecko;
         }
+
         public boolean shouldExecute() {
             return super.shouldExecute() && !this.gecko.hasEgg();
         }
@@ -224,7 +226,7 @@ public class EndGeckoEntity extends GeckoEntity{
 
             if (serverplayerentity != null) {
                 serverplayerentity.addStat(Stats.ANIMALS_BRED);
-                CriteriaTriggers.BRED_ANIMALS.trigger(serverplayerentity, this.animal, this.targetMate, (AgeableEntity)null);
+                CriteriaTriggers.BRED_ANIMALS.trigger(serverplayerentity, this.animal, this.targetMate, null);
             }
 
             this.gecko.setHasEgg(true);
@@ -244,9 +246,11 @@ public class EndGeckoEntity extends GeckoEntity{
             super(gecko, speedIn, 16);
             this.gecko = gecko;
         }
+
         public boolean shouldExecute() {
             return this.gecko.hasEgg();
         }
+
         public boolean shouldContinueExecuting() {
             return super.shouldContinueExecuting() && this.gecko.hasEgg();
         }

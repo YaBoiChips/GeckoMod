@@ -10,9 +10,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
 import yaboichips.geckomod.core.GItems;
 
-public class JungleGeckoBossEntity extends GeckoBossEntity{
+public class JungleGeckoBossEntity extends GeckoBossEntity {
 
-    private final ServerBossInfo bossInfo = (ServerBossInfo)(new ServerBossInfo(this.getDisplayName(), BossInfo.Color.GREEN, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
+    private final ServerBossInfo bossInfo = (ServerBossInfo) (new ServerBossInfo(this.getDisplayName(), BossInfo.Color.GREEN, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
 
     public JungleGeckoBossEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
         super(type, worldIn);

@@ -30,7 +30,6 @@ public class TerrariumScreen extends ContainerScreen<TerrariumContainer> {
     }
 
 
-
     @Override
     protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);

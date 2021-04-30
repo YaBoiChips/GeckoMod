@@ -10,19 +10,19 @@ import yaboichips.geckomod.common.entities.FireGeckoBossEntity;
 
 public class FireGeckoBossRenderer<T extends FireGeckoBossEntity> extends MobRenderer<T, FireGeckoBossModel<T>> {
 
-    public FireGeckoBossRenderer(EntityRendererManager manager){
-        super (manager, new FireGeckoBossModel<>(), 7f);
+    public FireGeckoBossRenderer(EntityRendererManager manager) {
+        super(manager, new FireGeckoBossModel<>(), 7f);
     }
 
     @Override
     protected void preRenderCallback(T entitylivingbaseIn, MatrixStack matrices, float partialTickTime) {
-        matrices.scale( 15f,  15f, 15f);
+        matrices.scale(15f, 15f, 15f);
         super.preRenderCallback(entitylivingbaseIn, matrices, partialTickTime);
     }
 
     @Override
     public ResourceLocation getEntityTexture(FireGeckoBossEntity entity) {
-       return new ResourceLocation(GeckoMod.MOD_ID, "textures/entity/gecko/gecko_boss_fire.png");
+        return new ResourceLocation(GeckoMod.MOD_ID, "textures/entity/gecko/gecko_boss_fire.png");
     }
 
 }

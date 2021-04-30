@@ -23,7 +23,7 @@ public class FireBossSpawnBlock extends Block {
         GeckoBossEntity gecko = GEntities.GECKOBOSSFIRE.create(worldIn);
         worldIn.addEntity(gecko);
         gecko.setPosition(pos.getX(), pos.getY(), pos.getZ());
-        worldIn.playSound((PlayerEntity) null, pos, SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.AMBIENT, 1.0f, 1.0f);
+        worldIn.playSound(null, pos, SoundEvents.ENTITY_WITHER_SPAWN, SoundCategory.AMBIENT, 1.0f, 1.0f);
         worldIn.removeBlock(pos, false);
         return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
     }

@@ -27,6 +27,7 @@ public class GEntities {
         entities.add(entityType);
         return entityType;
     }
+
     private static <E extends Entity, ET extends EntityType<E>> ET register(String id, EntityType.Builder<E> builder, ET entityType) {
         entityType.setRegistryName(new ResourceLocation(GeckoMod.MOD_ID, id));
         entities.add(entityType);
@@ -34,7 +35,6 @@ public class GEntities {
     }
 
 
-
-        public static void init() {
+    public static void init() {
     }
 }

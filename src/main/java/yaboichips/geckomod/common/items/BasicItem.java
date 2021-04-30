@@ -20,79 +20,79 @@ import java.util.List;
 public class BasicItem extends Item {
     private ItemGroup itemGroup = ItemGroup.SEARCH;
 
-        public BasicItem(Properties properties) {
-            super(properties);
-        }
+    public BasicItem(Properties properties) {
+        super(properties);
+    }
 
-        public BasicItem(String name, Properties properties) {
-            super(properties);
-            setRegistryName(name);
-        }
+    public BasicItem(String name, Properties properties) {
+        super(properties);
+        setRegistryName(name);
+    }
 
-        @Override
-        public final void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-            super.addInformation(stack, worldIn, tooltip, flagIn);
-            if (hasTooltipDetails(null)) {
-                addTooltipDetails(null, stack, tooltip, flagIn.isAdvanced());
-            }
-            for (Key key : Key.values()) {
-                if (hasTooltipDetails(key)) {
-                    if (key.isDown()) {
-                        addTooltipDetails(key, stack, tooltip, flagIn.isAdvanced());
-                    } else {
-                        tooltip.add(new StringTextComponent("Hold " + TextFormatting.YELLOW + key.getString() + TextFormatting.GRAY + " for more information"));
-                    }
+    @Override
+    public final void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.addInformation(stack, worldIn, tooltip, flagIn);
+        if (hasTooltipDetails(null)) {
+            addTooltipDetails(null, stack, tooltip, flagIn.isAdvanced());
+        }
+        for (Key key : Key.values()) {
+            if (hasTooltipDetails(key)) {
+                if (key.isDown()) {
+                    addTooltipDetails(key, stack, tooltip, flagIn.isAdvanced());
+                } else {
+                    tooltip.add(new StringTextComponent("Hold " + TextFormatting.YELLOW + key.getString() + TextFormatting.GRAY + " for more information"));
                 }
             }
         }
-
-        public void addTooltipDetails(@Nullable Key key, ItemStack stack, List<ITextComponent> tooltip, boolean advanced) {
-
-        }
-
-        public boolean hasTooltipDetails(@Nullable Key key) {
-            return false;
-        }
-
-        public void setItemGroup(ItemGroup itemGroup) {
-            this.itemGroup = itemGroup;
-        }
-
-public enum Key implements IStringSerializable {
-    SHIFT(GLFW.GLFW_KEY_RIGHT_SHIFT, GLFW.GLFW_KEY_LEFT_SHIFT),
-    CTRL(GLFW.GLFW_KEY_RIGHT_CONTROL, GLFW.GLFW_KEY_LEFT_CONTROL),
-    ALT(GLFW.GLFW_KEY_RIGHT_ALT, GLFW.GLFW_KEY_LEFT_ALT);
-
-    final String name;
-    int[] keys;
-
-    Key(int... keys) {
-        this.keys = keys;
-        this.name = name();
     }
 
-    Key(int[] keysWin, String macName, int[] keysMac) {
-        if (Minecraft.IS_RUNNING_ON_MAC) {
-            this.keys = keysMac;
-            this.name = macName;
-        } else {
-            this.keys = keysWin;
-            this.name = name();
-        }
+    public void addTooltipDetails(@Nullable Key key, ItemStack stack, List<ITextComponent> tooltip, boolean advanced) {
+
     }
 
-    public boolean isDown() {
-        for (int key : keys)
-            if (GLFW.glfwGetKey(Minecraft.getInstance().getMainWindow().getHandle(), key) == GLFW.GLFW_PRESS) //Main windows
-                return true;
+    public boolean hasTooltipDetails(@Nullable Key key) {
         return false;
     }
 
-    // getName
-    @Override
-    @Nonnull
-    public String getString() {
-        return StringUtils.capitalize(name.toLowerCase());
+    public void setItemGroup(ItemGroup itemGroup) {
+        this.itemGroup = itemGroup;
     }
-}
+
+    public enum Key implements IStringSerializable {
+        SHIFT(GLFW.GLFW_KEY_RIGHT_SHIFT, GLFW.GLFW_KEY_LEFT_SHIFT),
+        CTRL(GLFW.GLFW_KEY_RIGHT_CONTROL, GLFW.GLFW_KEY_LEFT_CONTROL),
+        ALT(GLFW.GLFW_KEY_RIGHT_ALT, GLFW.GLFW_KEY_LEFT_ALT);
+
+        final String name;
+        int[] keys;
+
+        Key(int... keys) {
+            this.keys = keys;
+            this.name = name();
+        }
+
+        Key(int[] keysWin, String macName, int[] keysMac) {
+            if (Minecraft.IS_RUNNING_ON_MAC) {
+                this.keys = keysMac;
+                this.name = macName;
+            } else {
+                this.keys = keysWin;
+                this.name = name();
+            }
+        }
+
+        public boolean isDown() {
+            for (int key : keys)
+                if (GLFW.glfwGetKey(Minecraft.getInstance().getMainWindow().getHandle(), key) == GLFW.GLFW_PRESS) //Main windows
+                    return true;
+            return false;
+        }
+
+        // getName
+        @Override
+        @Nonnull
+        public String getString() {
+            return StringUtils.capitalize(name.toLowerCase());
+        }
+    }
 }

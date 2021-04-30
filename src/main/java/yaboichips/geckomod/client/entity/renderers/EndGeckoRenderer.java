@@ -11,13 +11,14 @@ import yaboichips.geckomod.common.entities.EndGeckoEntity;
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class EndGeckoRenderer <T extends EndGeckoEntity> extends AbstractRenderer<T, GeckoModel<T>>{
+public class EndGeckoRenderer<T extends EndGeckoEntity> extends AbstractRenderer<T, GeckoModel<T>> {
 
     public static final Map<EndGeckoEntity.SkinColors, ResourceLocation> GECKO_TEXTURE = Util.make(Maps.newEnumMap(EndGeckoEntity.SkinColors.class), (map) -> {
-        map.put(EndGeckoEntity.SkinColors.BLACKEND,   createTexture("black_end"));
-        map.put(EndGeckoEntity.SkinColors.PURPLEEND,  createTexture("white_end"));
+        map.put(EndGeckoEntity.SkinColors.BLACKEND, createTexture("black_end"));
+        map.put(EndGeckoEntity.SkinColors.PURPLEEND, createTexture("white_end"));
 
     });
+
     public EndGeckoRenderer(EntityRendererManager manager) {
         super(manager, new GeckoModel<>(), 1.0f);
     }

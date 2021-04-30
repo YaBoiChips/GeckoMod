@@ -18,10 +18,12 @@ public class GItems {
         public ItemStack createIcon() {
             return new ItemStack(GItems.GECKO_STAFF);
         }
+
         @Override
         public boolean hasScrollbar() {
             return true;
         }
+
         @Override
         public ResourceLocation getBackgroundImage() {
             return new ResourceLocation("minecraft", "textures/gui/container/creative_inventory/tab_items.png");
@@ -62,10 +64,6 @@ public class GItems {
     public static final Item GIANT_GECKO_TOOTH = createItem(new Item(new Item.Properties().group(GECKO_TAB)), "giant_gecko_tooth");
     public static final Item GIANT_GECKO_EYE = createItem(new Item(new Item.Properties().group(GECKO_TAB)), "giant_gecko_eye");
     public static final Item GIANT_GECKO_HEART = createItem(new Item(new Item.Properties().group(GECKO_TAB)), "giant_gecko_heart");
-
-
-
-
 
 
     public static Item createItem(Item item, String id) {

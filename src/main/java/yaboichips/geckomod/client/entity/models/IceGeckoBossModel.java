@@ -204,7 +204,7 @@ public class IceGeckoBossModel<T extends IceGeckoBossEntity> extends EntityModel
     }
 
     @Override
-    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
+    public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         head.render(matrixStack, buffer, packedLight, packedOverlay);
         neck.render(matrixStack, buffer, packedLight, packedOverlay);
         body.render(matrixStack, buffer, packedLight, packedOverlay);

@@ -30,20 +30,19 @@ public class GStructures {
 
 
     public static void setupStructures() {
-        setupMapSpacingAndLand(JUNGLE_BOSS_AREA.get(), new StructureSeparationSettings(80, 20 , 42069911), true);
-        setupMapSpacingAndLand(ICE_BOSS_AREA.get(), new StructureSeparationSettings(80, 20 , 42069911), true);
-        setupMapSpacingAndLand(FIRE_BOSS_AREA.get(), new StructureSeparationSettings(80, 20 , 42069911), true);
-        setupMapSpacingAndLand(FLOWER_BOSS_AREA.get(), new StructureSeparationSettings(80, 20 , 42069911), true);
+        setupMapSpacingAndLand(JUNGLE_BOSS_AREA.get(), new StructureSeparationSettings(80, 20, 42069911), true);
+        setupMapSpacingAndLand(ICE_BOSS_AREA.get(), new StructureSeparationSettings(80, 20, 42069911), true);
+        setupMapSpacingAndLand(FIRE_BOSS_AREA.get(), new StructureSeparationSettings(80, 20, 42069911), true);
+        setupMapSpacingAndLand(FLOWER_BOSS_AREA.get(), new StructureSeparationSettings(80, 20, 42069911), true);
     }
 
     public static <F extends Structure<?>> void setupMapSpacingAndLand(
             F structure,
             StructureSeparationSettings structureSeparationSettings,
-            boolean transformSurroundingLand)
-    {
+            boolean transformSurroundingLand) {
         Structure.NAME_STRUCTURE_BIMAP.put(structure.getRegistryName().toString(), structure);
 
-        if(transformSurroundingLand){
+        if (transformSurroundingLand) {
             Structure.field_236384_t_ =
                     ImmutableList.<Structure<?>>builder()
                             .addAll(Structure.field_236384_t_)
@@ -60,12 +59,11 @@ public class GStructures {
         WorldGenRegistries.NOISE_SETTINGS.getEntries().forEach(settings -> {
             Map<Structure<?>, StructureSeparationSettings> structureMap = settings.getValue().getStructures().field_236193_d_;
 
-            if(structureMap instanceof ImmutableMap){
+            if (structureMap instanceof ImmutableMap) {
                 Map<Structure<?>, StructureSeparationSettings> tempMap = new HashMap<>(structureMap);
                 tempMap.put(structure, structureSeparationSettings);
                 settings.getValue().getStructures().field_236193_d_ = tempMap;
-            }
-            else{
+            } else {
                 structureMap.put(structure, structureSeparationSettings);
             }
         });

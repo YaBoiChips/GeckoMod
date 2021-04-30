@@ -12,7 +12,7 @@ public class GTileEntities {
             ForgeRegistries.TILE_ENTITIES, GeckoMod.MOD_ID);
 
     public static final RegistryObject<TileEntityType<TerrariumTileEntity>> TERRARIUM = TILE_ENTITY_TYPES
-            .register("terrarium", ()-> TileEntityType.Builder
+            .register("terrarium", () -> TileEntityType.Builder
                     .create(TerrariumTileEntity::new, GBlocks.TERRARIUM_BLOCK).build(null));
 
 }

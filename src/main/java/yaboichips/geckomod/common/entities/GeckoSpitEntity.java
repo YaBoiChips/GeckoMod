@@ -30,7 +30,7 @@ public class GeckoSpitEntity extends LlamaSpitEntity {
     public GeckoSpitEntity(World worldIn, GeckoBossEntity p_i47273_2_) {
         this(GEntities.GECKOSPIT, worldIn);
         super.setShooter(p_i47273_2_);
-        this.setPosition(p_i47273_2_.getPosX() - (double)(p_i47273_2_.getWidth() + 1.0F) * 0.5D * (double) MathHelper.sin(p_i47273_2_.renderYawOffset * ((float)Math.PI / 180F)), p_i47273_2_.getPosYEye() - (double)0.1F, p_i47273_2_.getPosZ() + (double)(p_i47273_2_.getWidth() + 1.0F) * 0.5D * (double)MathHelper.cos(p_i47273_2_.renderYawOffset * ((float)Math.PI / 180F)));
+        this.setPosition(p_i47273_2_.getPosX() - (double) (p_i47273_2_.getWidth() + 1.0F) * 0.5D * (double) MathHelper.sin(p_i47273_2_.renderYawOffset * ((float) Math.PI / 180F)), p_i47273_2_.getPosYEye() - (double) 0.1F, p_i47273_2_.getPosZ() + (double) (p_i47273_2_.getWidth() + 1.0F) * 0.5D * (double) MathHelper.cos(p_i47273_2_.renderYawOffset * ((float) Math.PI / 180F)));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -38,14 +38,13 @@ public class GeckoSpitEntity extends LlamaSpitEntity {
         this(GEntities.GECKOSPIT, worldIn);
         this.setPosition(x, y, z);
 
-        for(int i = 0; i < 7; ++i) {
-            double d0 = 0.4D + 0.1D * (double)i;
+        for (int i = 0; i < 7; ++i) {
+            double d0 = 0.4D + 0.1D * (double) i;
             worldIn.addParticle(ParticleTypes.SPIT, x, y, z, p_i47274_8_ * d0, p_i47274_10_, p_i47274_12_ * d0);
         }
 
         this.setMotion(p_i47274_8_, p_i47274_10_, p_i47274_12_);
     }
-
 
 
     /**
@@ -70,9 +69,9 @@ public class GeckoSpitEntity extends LlamaSpitEntity {
         } else if (this.isInWaterOrBubbleColumn()) {
             this.remove();
         } else {
-            this.setMotion(vector3d.scale((double)0.99F));
+            this.setMotion(vector3d.scale(0.99F));
             if (!this.hasNoGravity()) {
-                this.setMotion(this.getMotion().add(0.0D, (double)-0.06F, 0.0D));
+                this.setMotion(this.getMotion().add(0.0D, -0.06F, 0.0D));
             }
 
             this.setPosition(d0, d1, d2);
@@ -86,7 +85,7 @@ public class GeckoSpitEntity extends LlamaSpitEntity {
         super.onEntityHit(p_213868_1_);
         Entity entity = this.func_234616_v_();
         if (entity instanceof LivingEntity) {
-            p_213868_1_.getEntity().attackEntityFrom(DamageSource.causeIndirectDamage(this, (LivingEntity)entity).setProjectile(), 11.0F);
+            p_213868_1_.getEntity().attackEntityFrom(DamageSource.causeIndirectDamage(this, (LivingEntity) entity).setProjectile(), 11.0F);
             this.remove();
         }
     }

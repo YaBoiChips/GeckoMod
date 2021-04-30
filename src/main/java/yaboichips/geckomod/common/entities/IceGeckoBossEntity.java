@@ -13,9 +13,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
 import yaboichips.geckomod.core.GItems;
 
-public class IceGeckoBossEntity extends GeckoBossEntity{
+public class IceGeckoBossEntity extends GeckoBossEntity {
 
-    private final ServerBossInfo bossInfo = (ServerBossInfo)(new ServerBossInfo(this.getDisplayName(), BossInfo.Color.WHITE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
+    private final ServerBossInfo bossInfo = (ServerBossInfo) (new ServerBossInfo(this.getDisplayName(), BossInfo.Color.WHITE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
 
 
     public IceGeckoBossEntity(EntityType<? extends MonsterEntity> type, World worldIn) {
@@ -25,7 +25,7 @@ public class IceGeckoBossEntity extends GeckoBossEntity{
     @Override
     public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
         this.launchProjectileToEntity(target);
-        target.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 200 , 1, true, false));
+        target.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 200, 1, true, false));
     }
 
     @Override

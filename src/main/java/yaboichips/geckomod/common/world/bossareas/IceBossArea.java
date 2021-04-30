@@ -61,8 +61,7 @@ public class IceBossArea extends Structure<NoFeatureConfig> {
     }
 
 
-
-        @Override
+    @Override
     public IStartFactory<NoFeatureConfig> getStartFactory() {
         return IceBossArea.Start::new;
     }
@@ -71,7 +70,6 @@ public class IceBossArea extends Structure<NoFeatureConfig> {
     public GenerationStage.Decoration getDecorationStage() {
         return GenerationStage.Decoration.SURFACE_STRUCTURES;
     }
-
 
 
     private static final List<MobSpawnInfo.Spawners> STRUCTURE_MONSTERS = ImmutableList.of(

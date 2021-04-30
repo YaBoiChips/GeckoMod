@@ -26,33 +26,38 @@ public class GBlocks {
     public static Block FLOWER_BOSS_SPAWNER = createFlowerSpawnerBlock("flower_boss_spawner");
 
 
-
-    static @Nonnull Block createTerrariumBlock(String id) {
+    static @Nonnull
+    Block createTerrariumBlock(String id) {
         Block createBlock = new TerrariumBlock(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(4.0f, 1.5f).sound(SoundType.GLASS));
         return registerBlock(id, createBlock);
     }
 
-    static @Nonnull Block createJungleSpawnerBlock(String id) {
+    static @Nonnull
+    Block createJungleSpawnerBlock(String id) {
         Block createBlock = new JungleBossSpawnBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CHAIN).notSolid());
         return registerBlock(id, createBlock);
     }
 
-    static @Nonnull Block createIceSpawnerBlock(String id) {
+    static @Nonnull
+    Block createIceSpawnerBlock(String id) {
         Block createBlock = new IceBossSpawnBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CHAIN).notSolid());
         return registerBlock(id, createBlock);
     }
 
-    static @Nonnull Block createFireSpawnerBlock(String id) {
+    static @Nonnull
+    Block createFireSpawnerBlock(String id) {
         Block createBlock = new FireBossSpawnBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CHAIN).notSolid());
         return registerBlock(id, createBlock);
     }
 
-    static @Nonnull Block createFlowerSpawnerBlock(String id) {
+    static @Nonnull
+    Block createFlowerSpawnerBlock(String id) {
         Block createBlock = new FlowerBossSpawnBlock(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(-1.0F, 3600000.0F).sound(SoundType.CHAIN).notSolid());
         return registerBlock(id, createBlock);
     }
 
-    static @Nonnull Block createEggBlock(String id) {
+    static @Nonnull
+    Block createEggBlock(String id) {
         Block createBlock = new GeckoEggBlock(AbstractBlock.Properties.create(Material.CORAL).sound(SoundType.HYPHAE).hardnessAndResistance(0.7f).tickRandomly().notSolid());
         return registerBlock(id, createBlock);
     }

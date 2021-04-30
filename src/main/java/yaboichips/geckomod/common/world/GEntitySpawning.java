@@ -13,20 +13,21 @@ import yaboichips.geckomod.core.GEntities;
 @Mod.EventBusSubscriber(modid = GeckoMod.MOD_ID)
 public class GEntitySpawning {
 
-    public static void registerEntityWorldSpawns(BiomeLoadingEvent event, EntityType<?> entity, EntityClassification classification, Biome.Category...categories) {
-    for (Biome.Category category : categories)
-        if (category !=null) {
-            event.getSpawns().withSpawner(classification, new MobSpawnInfo.Spawners(entity, 100, 1, 3));
-        }
-}
-
-        @SubscribeEvent
-        public static void createEntitySpawns(BiomeLoadingEvent event){
-            Biome.Category category = event.getCategory();
-            if (category == Biome.Category.JUNGLE || category == Biome.Category.SWAMP || category == Biome.Category.RIVER || category == Biome.Category.FOREST) {
-            registerEntityWorldSpawns(event, GEntities.GECKO, EntityClassification.AMBIENT, Biome.Category.SWAMP);}
-            if (category == Biome.Category.NETHER) {
-                registerEntityWorldSpawns(event, GEntities.NETHERGECKO, EntityClassification.AMBIENT, Biome.Category.NETHER);
+    public static void registerEntityWorldSpawns(BiomeLoadingEvent event, EntityType<?> entity, EntityClassification classification, Biome.Category... categories) {
+        for (Biome.Category category : categories)
+            if (category != null) {
+                event.getSpawns().withSpawner(classification, new MobSpawnInfo.Spawners(entity, 100, 1, 3));
             }
+    }
+
+    @SubscribeEvent
+    public static void createEntitySpawns(BiomeLoadingEvent event) {
+        Biome.Category category = event.getCategory();
+        if (category == Biome.Category.JUNGLE || category == Biome.Category.SWAMP || category == Biome.Category.RIVER || category == Biome.Category.FOREST) {
+            registerEntityWorldSpawns(event, GEntities.GECKO, EntityClassification.AMBIENT, Biome.Category.SWAMP);
         }
+        if (category == Biome.Category.NETHER) {
+            registerEntityWorldSpawns(event, GEntities.NETHERGECKO, EntityClassification.AMBIENT, Biome.Category.NETHER);
+        }
+    }
 }

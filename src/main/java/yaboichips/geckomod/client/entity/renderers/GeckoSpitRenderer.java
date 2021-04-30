@@ -22,7 +22,7 @@ public class GeckoSpitRenderer extends EntityRenderer<GeckoSpitEntity> {
 
     public void render(GeckoSpitEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         matrixStackIn.push();
-        matrixStackIn.translate(0.0D, (double)0.15F, 0.0D);
+        matrixStackIn.translate(0.0D, 0.15F, 0.0D);
         matrixStackIn.rotate(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevRotationYaw, entityIn.rotationYaw) - 90.0F));
         matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(MathHelper.lerp(partialTicks, entityIn.prevRotationPitch, entityIn.rotationPitch)));
         this.model.setRotationAngles(entityIn, partialTicks, 0.0F, -0.1F, 0.0F, 0.0F);

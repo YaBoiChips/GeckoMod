@@ -81,10 +81,10 @@ public class NetherGeckoEntity extends GeckoEntity {
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(11, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false));
     }
-    
+
     @Override
     protected void updateAITasks() {
-        if (this.isInWaterOrBubbleColumn() && this.getArmor() <=0) {
+        if (this.isInWaterOrBubbleColumn() && this.getArmor() <= 0) {
             ++this.underWaterTicks;
         } else {
             this.underWaterTicks = 0;
@@ -92,7 +92,7 @@ public class NetherGeckoEntity extends GeckoEntity {
         if (this.underWaterTicks > 5) {
             this.attackEntityFrom(DamageSource.DROWN, 1.0F);
         }
-        if (this.world.isRaining() && this.getArmor() <=0){
+        if (this.world.isRaining() && this.getArmor() <= 0) {
             this.attackEntityFrom(DamageSource.DROWN, 1.0F);
         }
     }
@@ -107,11 +107,8 @@ public class NetherGeckoEntity extends GeckoEntity {
         } else {
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(6.0D);
         }
-
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(5.0D);
     }
-
-
 
     @ParametersAreNonnullByDefault
     @Override
@@ -120,9 +117,6 @@ public class NetherGeckoEntity extends GeckoEntity {
         setSkinColor(getRandomNetherGeckoColor(rand));
         return super.onInitialSpawn(world, difficultyIn, reason, spawnData == null ? new AgeableEntity.AgeableData(1.0F) : spawnData, tag);
     }
-
-
-
 
     public static NetherGeckoEntity.SkinColors getRandomNetherGeckoColor(@Nonnull Random random) {
         int i = random.nextInt(2);
@@ -137,7 +131,6 @@ public class NetherGeckoEntity extends GeckoEntity {
 
     // End initialising
 
-
     @Override
     public Item getTameItem() {
         return GItems.SPICY_GECKO_FOOD;
@@ -150,7 +143,8 @@ public class NetherGeckoEntity extends GeckoEntity {
 
     @ParametersAreNonnullByDefault
     @Override
-    public @Nullable NetherGeckoEntity func_241840_a(ServerWorld world, AgeableEntity mate) {
+    public @Nullable
+    NetherGeckoEntity func_241840_a(ServerWorld world, AgeableEntity mate) {
         @Nullable NetherGeckoEntity gecko = GEntities.NETHERGECKO.create(world);
         UUID uuid = this.getOwnerId();
         if (uuid != null) {
@@ -158,35 +152,29 @@ public class NetherGeckoEntity extends GeckoEntity {
             gecko.setTamed(true);
         }
         if (gecko != null) gecko.setSkinColor(getRandomNetherGeckoColor(gecko.rand));
-
         return gecko;
     }
 
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entityIn) {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)((int)getAttributeValue(Attributes.ATTACK_DAMAGE)));
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) getAttributeValue(Attributes.ATTACK_DAMAGE)));
         if (flag) applyEnchantments(this, entityIn);
         if (flag && this.getHeldItemMainhand().isEmpty() && entityIn instanceof LivingEntity && entityIn != this.getOwner()) {
             float f = this.world.getDifficultyForLocation(this.getPosition()).getAdditionalDifficulty();
             entityIn.setFire(8);
         }
-
         return flag;
     }
 
-
     // Write to Nbt
-
 
     public NetherGeckoEntity.SkinColors getNetherSkinColor() {
         return NetherGeckoEntity.SkinColors.byIndex((getRawFlag() >> 16) & Byte.MAX_VALUE);
     }
 
-
     public void setSkinColor(@Nonnull SkinColors color) {
         setFlags(color, isClimbing());
     }
-
 
     public int getRawFlag() {
         return dataManager.get(FLAGS);
@@ -205,7 +193,6 @@ public class NetherGeckoEntity extends GeckoEntity {
 
     // End write to nbt
 
-
     public enum SkinColors {
         REDNETHER(),
         ORANGENETHER();
@@ -214,10 +201,10 @@ public class NetherGeckoEntity extends GeckoEntity {
             return Maths.get(SkinColors.values(), index);
         }
     }
+
     public boolean canFallInLove() {
         return super.canFallInLove() && !this.hasEgg();
     }
-
 
     static class MateGoal extends BreedGoal {
         private final GeckoEntity gecko;
@@ -226,6 +213,7 @@ public class NetherGeckoEntity extends GeckoEntity {
             super(gecko, speedIn);
             this.gecko = gecko;
         }
+
         public boolean shouldExecute() {
             return super.shouldExecute() && !this.gecko.hasEgg();
         }
@@ -235,12 +223,10 @@ public class NetherGeckoEntity extends GeckoEntity {
             if (serverplayerentity == null && this.targetMate.getLoveCause() != null) {
                 serverplayerentity = this.targetMate.getLoveCause();
             }
-
             if (serverplayerentity != null) {
                 serverplayerentity.addStat(Stats.ANIMALS_BRED);
-                CriteriaTriggers.BRED_ANIMALS.trigger(serverplayerentity, this.animal, this.targetMate, (AgeableEntity)null);
+                CriteriaTriggers.BRED_ANIMALS.trigger(serverplayerentity, this.animal, this.targetMate, null);
             }
-
             this.gecko.setHasEgg(true);
             this.animal.resetInLove();
             this.targetMate.resetInLove();
@@ -258,9 +244,11 @@ public class NetherGeckoEntity extends GeckoEntity {
             super(gecko, speedIn, 16);
             this.gecko = gecko;
         }
+
         public boolean shouldExecute() {
             return this.gecko.hasEgg();
         }
+
         public boolean shouldContinueExecuting() {
             return super.shouldContinueExecuting() && this.gecko.hasEgg();
         }

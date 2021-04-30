@@ -116,7 +116,6 @@ public class GeckoModel<T extends GeckoEntity> extends AgeableModel<T> {
     }
 
 
-
     @Override
     public void render(MatrixStack matrixStack, IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         Head.render(matrixStack, buffer, packedLight, packedOverlay);
@@ -127,7 +126,6 @@ public class GeckoModel<T extends GeckoEntity> extends AgeableModel<T> {
         legsFrontRight.render(matrixStack, buffer, packedLight, packedOverlay);
         bb_main.render(matrixStack, buffer, packedLight, packedOverlay);
     }
-
 
 
     public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {

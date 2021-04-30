@@ -13,12 +13,12 @@ import java.util.Map;
 
 public class GeckoRenderer<T extends GeckoEntity> extends AbstractRenderer<T, GeckoModel<T>> {
     public static final Map<GeckoEntity.SkinColors, ResourceLocation> GECKO_TEXTURE = Util.make(Maps.newEnumMap(GeckoEntity.SkinColors.class), (map) -> {
-        map.put(GeckoEntity.SkinColors.BLUE,   createTexture("blue"));
-        map.put(GeckoEntity.SkinColors.WHITE,  createTexture("white"));
-        map.put(GeckoEntity.SkinColors.GREEN,  createTexture("green"));
-        map.put(GeckoEntity.SkinColors.BROWN,  createTexture("brown"));
-        map.put(GeckoEntity.SkinColors.BLACK,  createTexture("black"));
-        map.put(GeckoEntity.SkinColors.RED,    createTexture("red"));
+        map.put(GeckoEntity.SkinColors.BLUE, createTexture("blue"));
+        map.put(GeckoEntity.SkinColors.WHITE, createTexture("white"));
+        map.put(GeckoEntity.SkinColors.GREEN, createTexture("green"));
+        map.put(GeckoEntity.SkinColors.BROWN, createTexture("brown"));
+        map.put(GeckoEntity.SkinColors.BLACK, createTexture("black"));
+        map.put(GeckoEntity.SkinColors.RED, createTexture("red"));
         map.put(GeckoEntity.SkinColors.ORANGE, createTexture("orange"));
     });
 
@@ -33,7 +33,8 @@ public class GeckoRenderer<T extends GeckoEntity> extends AbstractRenderer<T, Ge
         return GECKO_TEXTURE.get(entity.getSkinColor());
     }
 
-    private static @Nonnull ResourceLocation createTexture(String name) {
+    private static @Nonnull
+    ResourceLocation createTexture(String name) {
         return GeckoMod.createResource("textures/entity/gecko/" + name + "_gecko.png");
     }
 }

@@ -2,7 +2,6 @@ package yaboichips.geckomod.common.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -33,19 +32,19 @@ public class EndGeckoEggBlock extends Block {
         if (this.canGrow(worldIn)) {
             int i = state.get(HATCH);
             if (i < 1) {
-                worldIn.playSound((PlayerEntity)null, pos, SoundEvents.ENTITY_TURTLE_EGG_CRACK, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
+                worldIn.playSound(null, pos, SoundEvents.ENTITY_TURTLE_EGG_CRACK, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
                 worldIn.setBlockState(pos, state.with(HATCH, i + 1), 2);
             } else {
-                worldIn.playSound((PlayerEntity)null, pos, SoundEvents.ENTITY_TURTLE_EGG_HATCH, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
+                worldIn.playSound(null, pos, SoundEvents.ENTITY_TURTLE_EGG_HATCH, SoundCategory.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
                 worldIn.removeBlock(pos, false);
-                    worldIn.playEvent(2001, pos, Block.getStateId(state));
-                    EndGeckoEntity geckoentity = GEntities.ENDGECKO.create(worldIn);
-                    geckoentity.setGrowingAge(-24000);
-                    geckoentity.setLocationAndAngles((double)pos.getX() + 0.3D , pos.getY(), (double)pos.getZ() + 0.3D, 0.0F, 0.0F);
-                    worldIn.addEntity(geckoentity);
-                }
+                worldIn.playEvent(2001, pos, Block.getStateId(state));
+                EndGeckoEntity geckoentity = GEntities.ENDGECKO.create(worldIn);
+                geckoentity.setGrowingAge(-24000);
+                geckoentity.setLocationAndAngles((double) pos.getX() + 0.3D, pos.getY(), (double) pos.getZ() + 0.3D, 0.0F, 0.0F);
+                worldIn.addEntity(geckoentity);
             }
         }
+    }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -58,7 +57,7 @@ public class EndGeckoEggBlock extends Block {
 
     private boolean canGrow(World worldIn) {
         float f = worldIn.func_242415_f(1.0F);
-        if ((double)f < 0.69D && (double)f > 0.65D) {
+        if ((double) f < 0.69D && (double) f > 0.65D) {
             return true;
         } else {
             return worldIn.rand.nextInt(500) == 0;

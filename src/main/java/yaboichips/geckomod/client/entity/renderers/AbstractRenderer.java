@@ -21,9 +21,9 @@ public abstract class AbstractRenderer<T extends MobEntity, M extends AgeableMod
     @ParametersAreNonnullByDefault
     @Override
     protected void preRenderCallback(T entity, MatrixStack matrices, float tickTime) {
-        if(entity.isChild()) matrices.scale(scale - 0.5F, scale - 0.2F, scale - 0.4F);
-        if(entity instanceof GeckoEntity && ((GeckoEntity) entity).isGiant()) matrices.scale(scale + 5f, scale + 5f, scale + 5f);
-
+        if (entity.isChild()) matrices.scale(scale - 0.5F, scale - 0.2F, scale - 0.4F);
+        if (entity instanceof GeckoEntity && ((GeckoEntity) entity).isGiant())
+            matrices.scale(scale + 5f, scale + 5f, scale + 5f);
 
 
         matrices.scale(scale, scale, scale);
