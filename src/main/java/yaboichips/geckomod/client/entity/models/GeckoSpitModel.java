@@ -24,9 +24,6 @@ public class GeckoSpitModel<T extends Entity> extends SegmentedModel<T> {
         this.main.setRotationPoint(0.0F, 0.0F, 0.0F);
     }
 
-    /**
-     * Sets this entity's model rotation angles
-     */
     public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     }
 

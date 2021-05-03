@@ -19,8 +19,8 @@ public class NetherGeckoRenderer<T extends NetherGeckoEntity> extends AbstractRe
     });
 
     public NetherGeckoRenderer(EntityRendererManager manager) {
-
         super(manager, new NetherGeckoModel<>(), 1.0F);
+        this.addLayer(new NetherGeckoArmorLayer<>(this));
     }
 
 

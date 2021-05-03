@@ -13,6 +13,7 @@ public class GCutOutTextures {
         Block[] blocks = {
                 GBlocks.JUNGLE_BOSS_SPAWNER.getBlock(),
                 GBlocks.ICE_BOSS_SPAWNER.getBlock(),
+                GBlocks.FLOWER_BOSS_SPAWNER.getBlock(),
                 GBlocks.FIRE_BOSS_SPAWNER.getBlock()
 
         };

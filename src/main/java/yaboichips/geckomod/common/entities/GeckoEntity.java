@@ -22,6 +22,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.*;
@@ -88,22 +89,22 @@ public class GeckoEntity extends TameableEntity implements IRideable {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
-        this.goalSelector.addGoal(1, new GeckoEntity.MateGoal(this, 1.0D));
-        this.goalSelector.addGoal(1, new GeckoEntity.LayEggGoal(this, 1.0D));
-        this.goalSelector.addGoal(0, new SitGoal(this));
-        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(1, new FollowOwnerGoal(this, 1.5D, 10.0F, 2.0F, true));
-        this.goalSelector.addGoal(6, new MeleeAttackGoal(this, 1.0D, false));
-        this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(9, new LookRandomlyGoal(this));
-        this.goalSelector.addGoal(10, new LeapAtTargetGoal(this, 0.4f));
-        this.targetSelector.addGoal(11, new NearestAttackableTargetGoal<>(this, BeeEntity.class, false));
+        this.goalSelector.addGoal(2, new GeckoEntity.MateGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new GeckoEntity.LayEggGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new SitGoal(this));
+        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
+        this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.5D, 10.0F, 2.0F, true));
+        this.goalSelector.addGoal(7, new MeleeAttackGoal(this, 1.0D, false));
+        this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(9, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(11, new LeapAtTargetGoal(this, 0.4f));
+        this.targetSelector.addGoal(12, new NearestAttackableTargetGoal<>(this, BeeEntity.class, false));
     }
 
     @Override
     public boolean isElytraFlying() {
-        return this.isGiant() && !this.isOnGround();
+        return false;
     }
 
     public boolean hasEgg() {
@@ -125,25 +126,40 @@ public class GeckoEntity extends TameableEntity implements IRideable {
 
     @Override
     public void livingTick() {
-        if (this.world.isRemote) {
+        if (!this.world.isRemote) {
             if (this.isGiant() && this.isBeingRidden()) {
-                if (GKeyBinds.GECKO_FLY_KEY.isPressed()) {
-                    Vector3d vec = this.getMotion();
-                    this.setVelocity(vec.x, 0.5, vec.z);
+                if (GKeyBinds.GECKO_FLY_FORWARD.isKeyDown()) {
+                    PlayerEntity player = (PlayerEntity) this.getControllingPassenger();
+                    float f7 = player.rotationYaw;
+                    float f = player.rotationPitch;
+                    float f1 = -MathHelper.sin(f7 * ((float) Math.PI / 180F)) * MathHelper.cos(f * ((float) Math.PI / 180F));
+                    float f2 = -MathHelper.sin(f * ((float) Math.PI / 180F));
+                    float f3 = MathHelper.cos(f7 * ((float) Math.PI / 180F)) * MathHelper.cos(f * ((float) Math.PI / 180F));
+                    float f4 = MathHelper.sqrt(f1 * f1 + f2 * f2 + f3 * f3);
+                    float f5 = 1.1F;
+                    f1 = f1 * (f5 / f4);
+                    f3 = f3 * (f5 / f4);
+                    this.setVelocity(f1, f2, f3);
+                    this.setRotation(f7, f);
+                    if (!GKeyBinds.GECKO_FLY_FORWARD.isKeyDown()) {
+                        this.setVelocity(0, 0, 0);
+                    }
                 }
             }
-            if (this.isGiant()) {
-                this.recalculateSize();
-            }
-            if (!this.isGiant()) {
-                this.recalculateSize();
-            }
-            if (this.isPotionActive(Effects.POISON)) {
-                this.removePotionEffect(Effects.POISON);
-            }
         }
-        super.livingTick();
-    }
+                if (this.isGiant()) {
+                    this.recalculateSize();
+                }
+                if (!this.isGiant()) {
+                    this.recalculateSize();
+                }
+                if (this.isPotionActive(Effects.POISON)) {
+                    this.removePotionEffect(Effects.POISON);
+                }
+
+            super.livingTick();
+        }
+
 
     @Override
     public boolean onLivingFall(float distance, float damageMultiplier) {
@@ -555,16 +571,16 @@ public class GeckoEntity extends TameableEntity implements IRideable {
         return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
     }
 
-    @Override
-    public boolean canBeSteered() {
-        Entity entity = this.getControllingPassenger();
-        if (!(entity instanceof PlayerEntity)) {
-            return false;
-        } else {
-            PlayerEntity playerentity = (PlayerEntity) entity;
-            return playerentity.getHeldItemMainhand().getItem() == GItems.GECKO_STAFF || playerentity.getHeldItemOffhand().getItem() == GItems.GECKO_STAFF;
-        }
-    }
+//    @Override
+//    public boolean canBeSteered() {
+//        Entity entity = this.getControllingPassenger();
+//        if (!(entity instanceof PlayerEntity)) {
+//            return false;
+//        } else {
+//            PlayerEntity playerentity = (PlayerEntity) entity;
+//            return playerentity.getHeldItemMainhand().getItem() == GItems.GECKO_STAFF || playerentity.getHeldItemOffhand().getItem() == GItems.GECKO_STAFF;
+//        }
+//    }
 
     public void travel(Vector3d travelVector) {
         this.ride(this, this.boostHelper, travelVector);
