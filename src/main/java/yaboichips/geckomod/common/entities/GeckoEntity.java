@@ -242,7 +242,7 @@ public class GeckoEntity extends TameableEntity implements IRideable {
             if (type != ActionResultType.SUCCESS && isTamed() && isOwner(player) && item == GItems.GIANT_GECKO_SERUM) {
                 if (player.isSneaking()) {
                     this.setSetGiant(this.getSetGiant() + 1);
-                    player.sendStatusMessage(new TranslationTextComponent("Made Giant"), true);
+                    player.sendStatusMessage(new TranslationTextComponent("Made Big"), true);
                     if (this.getSetGiant() == 2)
                         this.setSetGiant(0);
                 }
@@ -258,7 +258,7 @@ public class GeckoEntity extends TameableEntity implements IRideable {
                 }
             }
             if (type != ActionResultType.SUCCESS && item == GItems.IRON_GECKO_ARMOR && this.isTamed() && this.getArmor() < 1) {
-                player.sendStatusMessage(new TranslationTextComponent("Armor Applied"), true);
+                player.sendStatusMessage(new TranslationTextComponent("Iron Armor Applied"), true);
                 this.setArmor(1);
                 if (this.getArmor() == 1) {
                     if (!player.abilities.isCreativeMode) {
@@ -272,7 +272,7 @@ public class GeckoEntity extends TameableEntity implements IRideable {
                 }
             }
             if (type != ActionResultType.SUCCESS && item == GItems.GOLD_GECKO_ARMOR && this.isTamed() && this.getArmor() < 2) {
-                player.sendStatusMessage(new TranslationTextComponent("Armor Applied"), true);
+                player.sendStatusMessage(new TranslationTextComponent("Gold Armor Applied"), true);
                 this.setArmor(2);
                 if (this.getArmor() == 2) {
                     this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(9.0D);
@@ -286,7 +286,7 @@ public class GeckoEntity extends TameableEntity implements IRideable {
                 }
             }
             if (type != ActionResultType.SUCCESS && item == GItems.DIAMOND_GECKO_ARMOR && this.isTamed() && this.getArmor() < 3) {
-                player.sendStatusMessage(new TranslationTextComponent("Armor Applied"), true);
+                player.sendStatusMessage(new TranslationTextComponent("Diamond Armor Applied"), true);
                 this.setArmor(3);
                 if (this.getArmor() == 3) {
                     this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(12.0D);
@@ -300,7 +300,7 @@ public class GeckoEntity extends TameableEntity implements IRideable {
                 }
             }
             if (type != ActionResultType.SUCCESS && item == GItems.NETHERITE_GECKO_ARMOR && this.isTamed() && this.getArmor() < 4) {
-                player.sendStatusMessage(new TranslationTextComponent("Armor Applied"), true);
+                player.sendStatusMessage(new TranslationTextComponent("Netherite Armor Applied"), true);
                 this.setArmor(4);
                 if (this.getArmor() == 4) {
                     this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(15.0D);
@@ -570,17 +570,6 @@ public class GeckoEntity extends TameableEntity implements IRideable {
     public Entity getControllingPassenger() {
         return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
     }
-
-//    @Override
-//    public boolean canBeSteered() {
-//        Entity entity = this.getControllingPassenger();
-//        if (!(entity instanceof PlayerEntity)) {
-//            return false;
-//        } else {
-//            PlayerEntity playerentity = (PlayerEntity) entity;
-//            return playerentity.getHeldItemMainhand().getItem() == GItems.GECKO_STAFF || playerentity.getHeldItemOffhand().getItem() == GItems.GECKO_STAFF;
-//        }
-//    }
 
     public void travel(Vector3d travelVector) {
         this.ride(this, this.boostHelper, travelVector);
